@@ -24,7 +24,7 @@ class Publisher:
             event = generate_event1()
             message = event.to_json()
             self.channel.basic_publish(exchange='', routing_key=EVENT1_QUEUE, body=message)
-            logger.info(f"Published Event1: {message}")
+            logger.info(f"Published Type1Event: {message}")
             time.sleep(PUBLISH_INTERVAL)
 
     def close(self):

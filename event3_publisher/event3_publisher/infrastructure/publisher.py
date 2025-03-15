@@ -22,7 +22,7 @@ class Publisher:
             event = generate_event3()
             message = event.to_json()
             self.channel.basic_publish(exchange='', routing_key=EVENT3, body=message)
-            logger.info(f"Published Event3: {message}")
+            logger.info(f"Published Type3Event: {message}")
             time.sleep(PUBLISH_INTERVAL)
 
     def close(self):

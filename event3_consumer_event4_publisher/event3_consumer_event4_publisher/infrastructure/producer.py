@@ -14,7 +14,7 @@ class Producer:
 
     def publish_event4(self, event: Type4Event):
         self.channel.basic_publish(exchange='', routing_key=EVENT4, body=event.to_json())
-        logger.info(f"Published Event4: {event}")
+        logger.info(f"Published Type4Event: {event}")
 
     def close(self):
         self.connection.close()
