@@ -1,9 +1,8 @@
 import json
 from dataclasses import dataclass
 
-
 @dataclass
-class Event3:
+class Type3Event:
     event_id: str
     timestamp: float
 
@@ -16,4 +15,4 @@ class Event3:
     @staticmethod
     def from_json(data: str):
         obj = json.loads(data)
-        return Event3(event_id=obj["event_id"], timestamp=obj["timestamp"])
+        return Type3Event(event_id=obj["event_id"], timestamp=obj["timestamp"])

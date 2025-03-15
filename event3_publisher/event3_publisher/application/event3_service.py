@@ -1,6 +1,6 @@
 import uuid
 import time
-from ..domain.event3 import Event3
+from ..domain.type3_event import Type3Event
 
-def generate_event3() -> Event3:
-    return Event3(event_id=str(uuid.uuid4()), timestamp=time.time())
+def generate_event3() -> Type3Event:
+    return Type3Event(event_id=str(uuid.uuid4()), timestamp=time.time())
