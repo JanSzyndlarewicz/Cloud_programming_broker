@@ -1,8 +1,11 @@
-import pika
+import random
 import time
-from ..config.settings import RABBITMQ_HOST, EVENT3, PUBLISH_INTERVAL, RABBITMQ_USER, RABBITMQ_PASSWORD
-from ..config.logger import logger
+
+import pika
+
 from ..application.event3_service import generate_event3
+from ..config.logger import logger
+from ..config.settings import RABBITMQ_HOST, EVENT3, RABBITMQ_USER, RABBITMQ_PASSWORD
 
 
 class Publisher:
@@ -23,7 +26,7 @@ class Publisher:
             message = event.to_json()
             self.channel.basic_publish(exchange='', routing_key=EVENT3, body=message)
             logger.info(f"Published Type3Event: {message}")
-            time.sleep(PUBLISH_INTERVAL)
+            time.sleep(random.uniform(4, 8))
 
     def close(self):
         self.connection.close()

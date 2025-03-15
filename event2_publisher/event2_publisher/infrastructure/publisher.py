@@ -1,10 +1,11 @@
-import pika
+import random
 import time
+
+import pika
 
 from ..application.event2_service import generate_event2
 from ..config.logger import logger
-from ..config.settings import RABBITMQ_USER, RABBITMQ_PASSWORD, RABBITMQ_HOST, EVENT2_QUEUE, \
-    PUBLISH_INTERVAL
+from ..config.settings import RABBITMQ_USER, RABBITMQ_PASSWORD, RABBITMQ_HOST, EVENT2_QUEUE
 
 
 class Publisher:
@@ -25,7 +26,7 @@ class Publisher:
             message = event.to_json()
             self.channel.basic_publish(exchange='', routing_key=EVENT2_QUEUE, body=message)
             logger.info(f"Published Type2Event: {message}")
-            time.sleep(PUBLISH_INTERVAL)
+            time.sleep(random.uniform(4, 8))
 
     def close(self):
         self.connection.close()

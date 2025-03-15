@@ -5,4 +5,3 @@ RABBITMQ_PORT = int(os.getenv("RABBITMQ_PORT", 5672))
 RABBITMQ_USER = os.getenv('RABBITMQ_USER', 'admin')
 RABBITMQ_PASSWORD = os.getenv('RABBITMQ_PASS', 'admin')
 EVENT3 = "type3_event"
-PUBLISH_INTERVAL = 7
