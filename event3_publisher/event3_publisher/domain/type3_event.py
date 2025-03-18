@@ -1,11 +1,11 @@
 import json
 from dataclasses import dataclass
 
+from event_lib import Event
+
 
 @dataclass
-class Type3Event:
-    event_id: str
-    timestamp: float
+class Type3Event(Event):
 
     def to_json(self) -> str:
         return json.dumps({
