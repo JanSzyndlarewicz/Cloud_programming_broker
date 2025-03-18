@@ -1,9 +1,11 @@
-import time
 import random
-from ..config.logger import logger
-from ..domain.type1_event import Type1Event
+import time
 
-def process_event1(message: str):
-    event = Type1Event.from_json(message)
+from ..domain.type_event import TypeEvent
+from ..config.logger import logger
+
+
+def process_event(message: str):
+    event = TypeEvent.from_json(message)
     time.sleep(random.uniform(2, 4))
     logger.info(f"Processed Type1Event: {event}")

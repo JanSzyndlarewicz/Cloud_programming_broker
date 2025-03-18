@@ -3,7 +3,7 @@ import time
 
 import pika
 
-from ..application.event3_service import generate_event3
+from ..application.event_service import generate_event3
 from ..config.logger import logger
 from ..config.settings import RABBITMQ_HOST, EVENT3, RABBITMQ_USER, RABBITMQ_PASSWORD
 

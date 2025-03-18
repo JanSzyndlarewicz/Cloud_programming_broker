@@ -1,6 +1,6 @@
 from ..config.logger import logger
 from ..config.settings import EVENT3
-from ..application.event3_service import process_event3
+from ..application.event_generation_service import process_event3
 from .rabbitmq_connection import RabbitMQConnectionManager
 
 class Consumer:

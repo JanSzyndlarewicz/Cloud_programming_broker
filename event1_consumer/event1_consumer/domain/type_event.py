@@ -1,11 +1,11 @@
 import json
 from dataclasses import dataclass
 
-from ..domain.type_event import TypeEvent
-
 
 @dataclass
-class Type3Event(TypeEvent):
+class TypeEvent:
+    event_id: str
+    timestamp: float
 
     def to_json(self) -> str:
         return json.dumps({
@@ -16,4 +16,4 @@ class Type3Event(TypeEvent):
     @staticmethod
     def from_json(data: str):
         obj = json.loads(data)
-        return Type3Event(event_id=obj["event_id"], timestamp=obj["timestamp"])
+        return TypeEvent(event_id=obj["event_id"], timestamp=obj["timestamp"])

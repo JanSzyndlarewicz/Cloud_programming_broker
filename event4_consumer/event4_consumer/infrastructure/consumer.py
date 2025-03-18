@@ -2,7 +2,7 @@ import pika
 
 from ..config.logger import logger
 from ..config.settings import RABBITMQ_HOST, EVENT4_QUEUE, RABBITMQ_USER, RABBITMQ_PASSWORD
-from ..application.event4_service import process_event4
+from ..application.event_service import process_event4
 
 class Consumer:
     def __init__(self):

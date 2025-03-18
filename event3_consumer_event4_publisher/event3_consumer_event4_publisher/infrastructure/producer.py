@@ -4,11 +4,12 @@ from ..domain.type4_event import Type4Event
 from .rabbitmq_connection import RabbitMQConnectionManager
 
 class Producer:
-    def __init__(self):
+    def __init__(self,  event_type: str):
+        self.event_type = event_type
         self.connection = RabbitMQConnectionManager.get_connection()
         self.channel = self.connection.channel()
-        self.channel.queue_declare(queue=EVENT4)
+        self.channel.queue_declare(queue=self.event_type)
 
     def publish_event4(self, event: Type4Event):
-        self.channel.basic_publish(exchange='', routing_key=EVENT4, body=event.to_json())
+        self.channel.basic_publish(exchange='', routing_key=self.event_type, body=event.to_json())
         logger.info(f"Published Type4Event: {event}")
