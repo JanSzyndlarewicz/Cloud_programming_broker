@@ -15,7 +15,7 @@ services:
       retries: 5
 
   event1_publisher:
-    build: ./event1_publisher
+    build: event1_publisher
     environment:
       RABBITMQ_HOST: rabbitmq
       RABBITMQ_PORT: 5672
@@ -29,7 +29,7 @@ services:
       replicas: 3
 
   event2_publisher:
-    build: ./event2_publisher
+    build: event2_publisher
     environment:
       RABBITMQ_HOST: rabbitmq
       RABBITMQ_PORT: 5672
@@ -41,7 +41,7 @@ services:
     command: ["python", "-m", "event2_publisher"]
 
   event3_publisher:
-    build: ./event3_publisher
+    build: event3_publisher
     environment:
       RABBITMQ_HOST: rabbitmq
       RABBITMQ_PORT: 5672
@@ -53,7 +53,7 @@ services:
     command: ["python", "-m", "event3_publisher"]
 
   event1_consumer:
-    build: ./event1_consumer
+    build: event1_consumer
     environment:
       RABBITMQ_HOST: rabbitmq
       RABBITMQ_PORT: 5672
@@ -68,7 +68,7 @@ services:
       replicas: 2
 
   event2_consumer:
-    build: ./event2_consumer
+    build: event2_consumer
     environment:
       RABBITMQ_HOST: rabbitmq
       RABBITMQ_PORT: 5672
@@ -81,7 +81,7 @@ services:
     command: ["python", "-m", "event2_consumer"]
 
   event4_consumer:
-    build: ./event4_consumer
+    build: event4_consumer
     environment:
       RABBITMQ_HOST: rabbitmq
       RABBITMQ_PORT: 5672
@@ -94,7 +94,7 @@ services:
     command: ["python", "-m", "event4_consumer"]
 
   event3_consumer_event4_publisher:
-    build: ./event3_consumer_event4_publisher
+    build: event3_consumer_event4_publisher
     environment:
       RABBITMQ_HOST: rabbitmq
       RABBITMQ_PORT: 5672
