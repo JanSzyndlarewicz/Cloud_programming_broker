@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:13  # Używamy obrazu PostgreSQL 13
+    container_name: mydb
+    environment:
+      POSTGRES_USER: user         # Ustaw użytkownika
+      POSTGRES_PASSWORD: password # Ustaw hasło
+      POSTGRES_DB: user-service-database     # Ustaw nazwę bazy danych
+    ports:
+      - "5432:5432"               # Mapowanie portów
+    networks:
+      - app-network
+
+  app:
+    image: user-service  # Twój obraz aplikacji
+    container_name: user-service-container
+    environment:
+      - DATABASE_URL=postgresql://user:password@db:5432/user-service-database    # Połączenie z bazą w Dockerze
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

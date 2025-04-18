@@ -3,5 +3,5 @@
   <component name="Black">
     <option name="sdkName" value="Python 3.12 (Lab1-Event3Flow)" />
   </component>
-  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.10.12 WSL (Ubuntu): (/home/janszyndlarewicz/.virtualenvs/Cloud_programming_broker/bin/python)" project-jdk-type="Python SDK" />
+  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.10.12 WSL (Ubuntu): (/home/janszyndlarewicz/.virtualenvs/Cloud_programming_broker/lab2/bin/python)" project-jdk-type="Python SDK" />
 </project>
