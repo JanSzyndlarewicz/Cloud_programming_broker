@@ -2,9 +2,8 @@ from app.commands.create_booking_command import CreateBookingCommand
 from app.commands.create_booking_command_handler import CreateBookingCommandHandler
 from app.query.get_booking_query_handler import GetBookingQueryHandler
 from app.query.get_bookings_query_handler import GetBookingsQueryHandler
-from fastapi import HTTPException
-
 from app.query.get_rooms_query_handler import GetRoomsQueryHandler
+from fastapi import HTTPException
 
 
 class BookingController:
@@ -23,7 +22,6 @@ class BookingController:
             booking_id = self.create_booking_command_handler.handle(command)
             return {"booking_id": booking_id, "status": "created"}
         except Exception as e:
-            print(e)
             raise HTTPException(status_code=400, detail=str(e))
 
     async def get_bookings(self):

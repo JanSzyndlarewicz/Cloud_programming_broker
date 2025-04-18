@@ -1,20 +1,24 @@
-import sqlalchemy
-from sqlalchemy import Column, DateTime, Float, Integer, String, Date, Enum, ForeignKey, func
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship
 import enum
 
+import sqlalchemy
+from sqlalchemy import Column, Date, DateTime, Enum, Float, ForeignKey, Integer, String, func
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import relationship
+
 Base = declarative_base()
+
 
 class BookingStatus(enum.Enum):  # Ensure this is a proper enum.Enum
     pending = "pending"
     confirmed = "confirmed"
     canceled = "canceled"
 
+
 class RoomStatus(enum.Enum):
     available = "available"
     booked = "booked"
     maintenance = "maintenance"
+
 
 class Room(Base):
     __tablename__ = "rooms"
@@ -26,6 +30,7 @@ class Room(Base):
     created_at = Column(DateTime, server_default=func.now())
 
     bookings = relationship("Booking", back_populates="room")
+
 
 class Booking(Base):
     __tablename__ = "bookings"

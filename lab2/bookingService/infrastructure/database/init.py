@@ -21,12 +21,13 @@ def initialize_data():
             rooms = [
                 Room(number="101", price_per_night=100.0),
                 Room(number="102", price_per_night=120.0),
-                Room(number="201", price_per_night=150.0)
+                Room(number="201", price_per_night=150.0),
             ]
             db.add_all(rooms)
             db.commit()
     finally:
         db.close()
+
 
 initialize_data()
 

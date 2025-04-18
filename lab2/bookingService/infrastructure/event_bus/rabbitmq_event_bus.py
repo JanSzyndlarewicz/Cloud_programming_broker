@@ -1,9 +1,12 @@
 import json
+import logging
 from typing import Any
 
 import pika
 from infrastructure.config import Config
 from infrastructure.event_bus.abstractions import EventBus
+
+logger = logging.getLogger(__name__)
 
 
 class RabbitMQEventBus(EventBus):
@@ -23,7 +26,7 @@ class RabbitMQEventBus(EventBus):
         self.channel.queue_bind(exchange=self.exchange, queue=f"{self.exchange}_queue")
 
     def publish(self, event: Any, routing_key: str):
-        print("Publishing event:", event.__dict__)
+        logger.info("Publishing event: %s", event.__dict__)
         self.channel.basic_publish(
             exchange=self.exchange,
             body=json.dumps(event.__dict__),

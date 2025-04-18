@@ -1,9 +1,8 @@
 from typing import Type
 
-from sqlalchemy.orm import Session
-
 from domain.models.booking import Room
 from infrastructure.database.models import Booking
+from sqlalchemy.orm import Session
 
 
 class BookingRepository:
@@ -31,6 +30,7 @@ class BookingRepository:
 
     def list_all(self) -> list[Type[Booking]]:
         return self.session.query(Booking).all()
+
 
 class RoomRepository:
     def __init__(self, db_session):

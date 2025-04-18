@@ -1,16 +1,19 @@
+from datetime import datetime
 from enum import Enum
-from sqlalchemy import (
-    Column, Integer, String, Float, Date,
-    Enum as SQLEnum, ForeignKey, Table, DateTime
-)
+
+from sqlalchemy import Column, Date, DateTime
+from sqlalchemy import Enum as SQLEnum
+from sqlalchemy import Float, ForeignKey, Integer, String, Table
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
-from datetime import datetime
 
 Base = declarative_base()
 
 from enum import Enum
-from sqlalchemy import Column, Integer, String, Float, Date, Enum as SQLEnum, ForeignKey
+
+from sqlalchemy import Column, Date
+from sqlalchemy import Enum as SQLEnum
+from sqlalchemy import Float, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 
 
