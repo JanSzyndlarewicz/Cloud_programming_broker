@@ -1,5 +1,6 @@
 import json
 import logging
+from asyncio import sleep
 from typing import Any
 
 import pika
@@ -34,17 +35,17 @@ class RabbitMQEventBus(EventBus):
         )
 
     def subscribe(self, queue: str, callback: callable, routing_key: str = None):
-        self.channel.queue_declare(queue=queue)
+        self.channel.queue_declare(queue=queue, durable=True)
         if routing_key:
-            self.channel.queue_bind(queue=queue, routing_key=routing_key)
+            self.channel.queue_bind(queue=queue, exchange=self.exchange, routing_key=routing_key)
 
         def wrapped_callback(ch, method, properties, body):
             event_data = json.loads(body)
             callback(event_data)
 
         self.channel.basic_consume(queue=queue, on_message_callback=wrapped_callback, auto_ack=True)
-
         self.channel.start_consuming()
 
     def close(self):
         self.connection.close()
+

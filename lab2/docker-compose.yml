@@ -1,28 +1,37 @@
-version: '3.8'
+version: "3.8"
 
 services:
-  db:
-    image: postgres:13  # Używamy obrazu PostgreSQL 13
-    container_name: mydb
+  booking-db:
+    image: postgres:15
+    container_name: booking_postgres
     environment:
-      POSTGRES_USER: user         # Ustaw użytkownika
-      POSTGRES_PASSWORD: password # Ustaw hasło
-      POSTGRES_DB: user-service-database     # Ustaw nazwę bazy danych
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: booking_db
     ports:
-      - "5432:5432"               # Mapowanie portów
+      - "5433:5432"  # Host port 5433 → Container port 5432
+    volumes:
+      - booking_data:/var/lib/postgresql/data
     networks:
-      - app-network
+      - db_net
 
-  app:
-    image: user-service  # Twój obraz aplikacji
-    container_name: user-service-container
+  cleaning-db:
+    image: postgres:15
+    container_name: cleaning_postgres
     environment:
-      - DATABASE_URL=postgresql://user:password@db:5432/user-service-database    # Połączenie z bazą w Dockerze
-    depends_on:
-      - db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: cleaning_db
+    ports:
+      - "5434:5432"  # Host port 5434 → Container port 5432
+    volumes:
+      - cleaning_data:/var/lib/postgresql/data
     networks:
-      - app-network
+      - db_net
+
+volumes:
+  booking_data:
+  cleaning_data:
 
 networks:
-  app-network:
-    driver: bridge
+  db_net:

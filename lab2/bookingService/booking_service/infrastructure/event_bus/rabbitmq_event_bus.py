@@ -36,7 +36,7 @@ class RabbitMQEventBus(EventBus):
     def subscribe(self, queue: str, callback: callable, routing_key: str = None):
         self.channel.queue_declare(queue=queue)
         if routing_key:
-            self.channel.queue_bind(queue=queue, routing_key=routing_key)
+            self.channel.queue_bind(queue=queue, exchange=self.exchange, routing_key=routing_key)
 
         def wrapped_callback(ch, method, properties, body):
             event_data = json.loads(body)

@@ -1,34 +1,22 @@
-from cleaning_service.app.commands.create_booking_command import CreateBookingCommand
-from cleaning_service.app.commands.create_booking_command_handler import CreateBookingCommandHandler
-from cleaning_service.app.query.get_booking_query_handler import GetBookingQueryHandler
-from cleaning_service.app.query.get_bookings_query_handler import GetBookingsQueryHandler
+from cleaning_service.app.commands.create_cleaning_command import CreateCleaningCommand
+from cleaning_service.app.commands.create_cleaning_command_handler import CreateCleaningCommandHandler
 from cleaning_service.app.query.get_rooms_query_handler import GetRoomsQueryHandler
 from fastapi import HTTPException
 
 
-class BookingController:
+class CleaningController:
     def __init__(
         self,
-        create_booking_command_handler: CreateBookingCommandHandler,
-        get_bookings_query_handler: GetBookingsQueryHandler,
-        get_booking_query_handler: GetBookingQueryHandler,
+        create_cleaning_command_handler: CreateCleaningCommandHandler,
     ):
-        self.create_booking_command_handler = create_booking_command_handler
-        self.get_bookings_query_handler = get_bookings_query_handler
-        self.get_booking_query_handler = get_booking_query_handler
+        self.create_cleaning_command_handler = create_cleaning_command_handler
 
-    async def create_booking(self, command: CreateBookingCommand) -> dict:
+    async def create_cleaning(self, command: CreateCleaningCommand) -> dict:
         try:
-            booking_id = self.create_booking_command_handler.handle(command)
-            return {"booking_id": booking_id, "status": "created"}
+            cleaning_id = self.create_cleaning_command_handler.handle(command)
+            return {"cleaning_id": cleaning_id, "status": "created"}
         except Exception as e:
             raise HTTPException(status_code=400, detail=str(e))
-
-    async def get_bookings(self):
-        return self.get_bookings_query_handler.handle()
-
-    async def get_booking(self, booking_id: int):
-        return self.get_booking_query_handler.handle(booking_id)
 
 
 class RoomController:
