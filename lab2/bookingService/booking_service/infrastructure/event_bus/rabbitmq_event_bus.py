@@ -20,7 +20,7 @@ class RabbitMQEventBus(EventBus):
             )
         )
         self.channel = self.connection.channel()
-        self.channel.exchange_declare(exchange=self.exchange, exchange_type="fanout", durable=True)
+        self.channel.exchange_declare(exchange=self.exchange, exchange_type="direct", durable=True)
 
         self.channel.queue_declare(queue=f"{self.exchange}_queue", durable=True)
         self.channel.queue_bind(exchange=self.exchange, queue=f"{self.exchange}_queue")
