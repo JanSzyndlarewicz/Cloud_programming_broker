@@ -1,7 +1,7 @@
 from datetime import datetime
 from enum import Enum
 
-from sqlalchemy import Column, Date, DateTime
+from sqlalchemy import Column, Date, DateTime, Boolean
 from sqlalchemy import Enum as SQLEnum
 from sqlalchemy import Float, ForeignKey, Integer, String, Table
 from sqlalchemy.ext.declarative import declarative_base
@@ -49,7 +49,9 @@ class Booking(Base):
     check_in = Column(Date, nullable=False)
     check_out = Column(Date, nullable=False)
     total_cost = Column(Float)
+    number_of_guests = Column(Integer, nullable=False)
     status = Column(SQLEnum(BookingStatus), default=BookingStatus.pending)
+    meal_reserved = Column(Boolean, default=False)  # Indicates if a meal is reserved
 
     # Foreign key for one room per booking
     room_id = Column(Integer, ForeignKey("rooms.id"))

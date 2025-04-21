@@ -1,6 +1,6 @@
 import enum
 
-from sqlalchemy import Column, Date, DateTime, Enum, Float, ForeignKey, Integer, String, func
+from sqlalchemy import Column, Date, DateTime, Enum, Float, ForeignKey, Integer, String, func, Boolean
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 
@@ -41,7 +41,9 @@ class Booking(Base):
     check_in = Column(Date, nullable=False)
     check_out = Column(Date, nullable=False)
     total_cost = Column(Float, nullable=False)
+    number_of_guests = Column(Integer, nullable=False)
     status = Column(Enum(BookingStatus), default=BookingStatus.pending, nullable=False)
+    meal_reserved = Column(Boolean, default=False, nullable=False)  # Indicates if a meal is reserved
     created_at = Column(DateTime, server_default=func.now())
 
     room = relationship("Room", back_populates="bookings")

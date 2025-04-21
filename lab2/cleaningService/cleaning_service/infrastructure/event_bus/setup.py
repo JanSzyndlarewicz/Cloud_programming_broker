@@ -16,7 +16,7 @@ def setup_event_subscribers(db: Session, event_bus: RabbitMQEventBus):
 
     # Subscribe to the "booking_created" event type
     event_bus.subscribe(
-        queue=f"{Config.RABBITMQ_EXCHANGE}_queue",
+        queue="cleaning_room_booked_queue",  # unikalna kolejka
         callback=booking_created_subscriber.handle,
-        routing_key="booking_created"
+        exchange_type="fanout",
     )

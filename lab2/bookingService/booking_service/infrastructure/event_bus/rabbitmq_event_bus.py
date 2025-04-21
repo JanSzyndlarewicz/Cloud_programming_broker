@@ -9,9 +9,23 @@ from booking_service.infrastructure.event_bus.abstractions import EventBus
 logger = logging.getLogger(__name__)
 
 
+import json
+import logging
+from asyncio import sleep
+from typing import Any
+
+import pika
+from cleaning_service.infrastructure.config import Config
+from cleaning_service.infrastructure.event_bus.abstractions import EventBus
+
+logger = logging.getLogger(__name__)
+
+
 class RabbitMQEventBus(EventBus):
     def __init__(self):
-        self.exchange = Config.RABBITMQ_EXCHANGE
+        self.broadcast_exchange = "broadcast_events"
+        self.direct_exchange = "service_events"
+
         self.connection = pika.BlockingConnection(
             pika.ConnectionParameters(
                 host=Config.RABBITMQ_HOST,
@@ -20,31 +34,40 @@ class RabbitMQEventBus(EventBus):
             )
         )
         self.channel = self.connection.channel()
-        self.channel.exchange_declare(exchange=self.exchange, exchange_type="direct", durable=True)
 
-        self.channel.queue_declare(queue=f"{self.exchange}_queue", durable=True)
-        self.channel.queue_bind(exchange=self.exchange, queue=f"{self.exchange}_queue")
+        # Fanout exchange - broadcast
+        self.channel.exchange_declare(exchange=self.broadcast_exchange, exchange_type="fanout", durable=True)
 
-    def publish(self, event: Any, routing_key: str):
+        # Direct exchange - point-to-point
+        self.channel.exchange_declare(exchange=self.direct_exchange, exchange_type="direct", durable=True)
+
+    def publish(self, event: Any, exchange_type: str = "direct", routing_key: str = ""):
         logger.info("Publishing event: %s", event.__dict__)
+        exchange = self.direct_exchange if exchange_type == "direct" else self.broadcast_exchange
+
         self.channel.basic_publish(
-            exchange=self.exchange,
-            body=json.dumps(event.__dict__),
+            exchange=exchange,
             routing_key=routing_key,
+            body=json.dumps(event.__dict__),
         )
 
-    def subscribe(self, queue: str, callback: callable, routing_key: str = None):
-        self.channel.queue_declare(queue=queue)
-        if routing_key:
-            self.channel.queue_bind(queue=queue, exchange=self.exchange, routing_key=routing_key)
+    def subscribe(self, queue: str, callback: callable, exchange_type: str = "direct", routing_key: str = ""):
+        exchange = self.direct_exchange if exchange_type == "direct" else self.broadcast_exchange
+
+        self.channel.queue_declare(queue=queue, durable=True)
+        self.channel.queue_bind(exchange=exchange, queue=queue, routing_key=routing_key)
 
         def wrapped_callback(ch, method, properties, body):
             event_data = json.loads(body)
             callback(event_data)
 
         self.channel.basic_consume(queue=queue, on_message_callback=wrapped_callback, auto_ack=True)
-
         self.channel.start_consuming()
 
     def close(self):
+        self.channel.close()
         self.connection.close()
+
+    def __del__(self):
+        logger.info("Closing RabbitMQ connection in destructor.")
+        self.close()

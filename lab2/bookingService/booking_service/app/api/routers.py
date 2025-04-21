@@ -51,6 +51,8 @@ class CreateBookingRequest(BaseModel):
     room: Room
     check_in: str
     check_out: str
+    number_of_guests: int
+    meal_reserved: bool = False
 
 
 @router.post("/bookings")
@@ -65,6 +67,8 @@ async def create_booking(
         room=booking_request.room.model_dump(),
         check_in=booking_request.check_in,
         check_out=booking_request.check_out,
+        number_of_guests=booking_request.number_of_guests,
+        meal_reserved=booking_request.meal_reserved,
     )
     return await controller.create_booking(command)
 

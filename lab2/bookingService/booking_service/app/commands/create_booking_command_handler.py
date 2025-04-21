@@ -48,6 +48,7 @@ class CreateBookingCommandHandler:
                 guest_email=command.guest_email,
                 check_in=check_in,
                 check_out=check_out,
+                number_of_guests=command.number_of_guests,
                 room_id=room.id,
                 status=BookingStatus.pending,
             )
@@ -73,6 +74,8 @@ class CreateBookingCommandHandler:
                 room_number=room.number,
                 room_id=room.id,
                 total_cost=booking.total_cost,
+                number_of_guests=booking.number_of_guests,
+                meal_reserved=command.meal_reserved,
                 check_in=booking.check_in.isoformat(),
                 check_out=booking.check_out.isoformat(),
                 status=booking.status.value,

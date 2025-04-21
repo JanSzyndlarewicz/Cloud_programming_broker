@@ -6,10 +6,10 @@ import uvicorn
 import yaml
 from fastapi import FastAPI
 
-from cleaning_service.app.api.routers import router
-from cleaning_service.infrastructure.database.init import get_db
-from cleaning_service.infrastructure.event_bus.rabbitmq_event_bus import RabbitMQEventBus
-from cleaning_service.infrastructure.event_bus.setup import setup_event_subscribers
+from dining_service.app.api.routers import router
+from dining_service.infrastructure.database.init import get_db
+from dining_service.infrastructure.event_bus.rabbitmq_event_bus import RabbitMQEventBus
+from dining_service.infrastructure.event_bus.setup import setup_event_subscribers
 
 # Load logging configuration
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -24,7 +24,7 @@ logger = logging.getLogger("app")
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    logger.info("Application is starting up...")
+    logger.info("Application dining is starting up...")
 
     # Initialize the database session
     db = next(get_db())

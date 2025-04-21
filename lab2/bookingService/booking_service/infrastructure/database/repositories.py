@@ -17,7 +17,9 @@ class BookingRepository:
             check_in=booking.check_in,
             check_out=booking.check_out,
             total_cost=booking.total_cost,
+            number_of_guests=booking.number_of_guests,
             status=booking.status,
+            meal_reserved=booking.meal_reserved,  # Added meal_reserved field
         )
         self.session.add(db_booking)
         self.session.commit()

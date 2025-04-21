@@ -29,9 +29,24 @@ services:
     networks:
       - db_net
 
+  dining-db:
+    image: postgres:15
+    container_name: dining_postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: dining_db
+    ports:
+      - "5435:5432"  # Host port 5435 → Container port 5432
+    volumes:
+      - dining_data:/var/lib/postgresql/data
+    networks:
+      - db_net
+
 volumes:
   booking_data:
   cleaning_data:
+  dining_data:
 
 networks:
   db_net:

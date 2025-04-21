@@ -1,5 +1,5 @@
-from cleaning_service.infrastructure.config import Config
-from cleaning_service.infrastructure.database.models import Base, Room, RoomStatus, Cleaning
+from dining_service.infrastructure.config import Config
+from dining_service.infrastructure.database.models import Base
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
@@ -13,25 +13,6 @@ Base.metadata.create_all(bind=engine)
 # Create a session factory
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
-# Function to initialize sample data
-def initialize_data():
-    db = SessionLocal()
-    try:
-        # Check if rooms already exist
-        if not db.query(Room).first():
-            # Add some sample rooms
-            rooms = [
-                Room(number="101"),
-                Room(number="102"),
-                Room(number="201"),
-            ]
-            db.add_all(rooms)
-            db.commit()
-    finally:
-        db.close()
-
-# Initialize the sample data
-initialize_data()
 
 # Dependency to get a database session
 def get_db():

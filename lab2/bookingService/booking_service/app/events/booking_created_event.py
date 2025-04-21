@@ -7,4 +7,4 @@ class BookingCreatedEventPublisher:
         self.event_bus = event_bus
 
     def publish(self, event: BookingCreatedEvent):
-        self.event_bus.publish(event, "booking_created")
+        self.event_bus.publish(event, exchange_type="fanout", routing_key="")

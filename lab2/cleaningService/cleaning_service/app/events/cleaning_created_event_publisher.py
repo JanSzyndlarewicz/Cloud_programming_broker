@@ -7,5 +7,5 @@ class CleaningCreatedEventPublisher:
         self.event_bus = event_bus
 
     def publish(self, event: CleaningCreatedEvent):
-        self.event_bus.publish(event, "cleaning_created")
+        self.event_bus.publish(event, exchange_type="direct", routing_key="cleaning_created")
 

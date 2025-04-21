@@ -8,3 +8,5 @@ class CreateBookingCommand:
     room: dict
     check_in: str
     check_out: str
+    number_of_guests: int
+    meal_reserved: bool

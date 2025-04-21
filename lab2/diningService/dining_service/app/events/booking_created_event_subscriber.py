@@ -1,25 +1,21 @@
 import logging
-from asyncio import sleep
-from datetime import datetime
+from datetime import datetime, timedelta
 
-from cleaning_service.app.events.cleaning_created_event_publisher import CleaningCreatedEventPublisher
-from cleaning_service.domain.events.booking_created import BookingCreatedEvent
-
-from cleaning_service.domain.events.cleaning_created import CleaningCreatedEvent
-from cleaning_service.infrastructure.database.models import Cleaning, RoomStatus
-from cleaning_service.infrastructure.database.repositories import CleaningRepository, RoomRepository
+from dining_service.app.events.dining_created_event_publisher import DiningCreatedEventPublisher
+from dining_service.domain.events.booking_created import BookingCreatedEvent
+from dining_service.domain.events.dining_created import DiningCreatedEvent
+from dining_service.infrastructure.database.models import DiningReservation
+from dining_service.infrastructure.database.repositories import DiningReservationRepository
 
 logger = logging.getLogger(__name__)
 
 class BookingCreatedEventSubscriber:
     def __init__(
         self,
-        cleaning_repository: CleaningRepository,
-        room_repository: RoomRepository,
-        event_publisher: CleaningCreatedEventPublisher,
+        dining_repository: DiningReservationRepository,
+        event_publisher: DiningCreatedEventPublisher,
     ):
-        self.cleaning_repository = cleaning_repository
-        self.room_repository = room_repository
+        self.dining_repository = dining_repository
         self.event_publisher = event_publisher
 
     def handle(self, event: dict):
@@ -29,43 +25,36 @@ class BookingCreatedEventSubscriber:
             logger.info(f"Converting event to BookingCreatedEvent: {event}")
             event_obj = BookingCreatedEvent(**event)
             logger.info(f"Converted event: {event_obj.model_dump()}")
-            print(event_obj.model_dump())
 
-            # Get the room associated with the booking
-            room = self.room_repository.get_room_by_id(event_obj.room_id)
-            if not room:
-                raise ValueError(f"Room {event_obj.room_id} not found")
+            if not event_obj.meal_reserved:
+                return
 
-            # Create a cleaning task
-            cleaning_date = datetime.strptime(event_obj.check_out, "%Y-%m-%d").date()
-            cleaning = Cleaning(
-                room_id=event_obj.room_id,
-                cleaning_date=cleaning_date,
-                cleaning_type="standard",
-                assigned_staff="auto-assigned",
-            )
+            reservation_start_date = datetime.strptime(event_obj.check_in, "%Y-%m-%d").date()
+            reservation_end_date = datetime.strptime(event_obj.check_out, "%Y-%m-%d").date()
 
-            # Update room status to cleaning
-            room.status = RoomStatus.cleaning.value
+            current_date = reservation_start_date
+            while current_date <= reservation_end_date:
+                reservation = DiningReservation(
+                    guest_name=event_obj.guest_name,
+                    guest_email=event_obj.guest_email,
+                    reservation_date=current_date,
+                    number_of_guests=event_obj.number_of_guests,
+                )
+                self.dining_repository.session.add(reservation)
+                self.dining_repository.session.commit()  # Commit to generate the ID
 
-            # Save cleaning task and update room status
-            self.cleaning_repository.session.add(cleaning)
-            self.cleaning_repository.session.add(room)
-            self.cleaning_repository.session.commit()
-            self.cleaning_repository.session.refresh(cleaning)
+                dining_event = DiningCreatedEvent(
+                    dining_id=reservation.id,  # ID is now available
+                    guest_name=reservation.guest_name,
+                    guest_email=reservation.guest_email,
+                    reservation_date=reservation.reservation_date.isoformat(),
+                    number_of_guests=reservation.number_of_guests,
+                )
+                self.event_publisher.publish(dining_event)
 
-            # Publish cleaning_created event
-            cleaning_event = CleaningCreatedEvent(
-                cleaning_id=cleaning.id,
-                room_id=cleaning.room_id,
-                room_number=event_obj.room_number,  # Include room_number
-                cleaning_date=cleaning.cleaning_date.isoformat(),
-                cleaning_type=cleaning.cleaning_type,
-                assigned_staff=cleaning.assigned_staff,
-            )
-            self.event_publisher.publish(cleaning_event)
+                current_date += timedelta(days=1)
 
         except Exception as e:
             logger.error(f"Failed to handle BookingCreatedEvent: {str(e)}")
-            self.cleaning_repository.session.rollback()
+            self.dining_repository.session.rollback()
             raise
