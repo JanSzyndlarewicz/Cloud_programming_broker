@@ -1,6 +1,3 @@
-
-from fastapi import APIRouter, Depends
-
 from booking_service.app.api.controllers import BookingController, RoomController
 from booking_service.app.commands.create_booking_command import CreateBookingCommand
 from booking_service.app.commands.create_booking_command_handler import CreateBookingCommandHandler
@@ -11,6 +8,7 @@ from booking_service.app.query.get_rooms_query_handler import GetRoomsQueryHandl
 from booking_service.infrastructure.database.init import get_db
 from booking_service.infrastructure.database.repositories import BookingRepository, RoomRepository
 from booking_service.infrastructure.event_bus.rabbitmq_event_bus import RabbitMQEventBus
+from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 router = APIRouter()

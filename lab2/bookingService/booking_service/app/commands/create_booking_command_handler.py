@@ -9,9 +9,8 @@ from booking_service.domain.models.booking import Booking, BookingStatus
 from booking_service.infrastructure.database.models import RoomStatus
 from booking_service.infrastructure.database.repositories import BookingRepository, RoomRepository
 
-
-
 logger = logging.getLogger(__name__)
+
 
 class CreateBookingCommandHandler:
     def __init__(

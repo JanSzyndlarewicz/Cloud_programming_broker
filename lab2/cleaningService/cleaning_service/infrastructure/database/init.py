@@ -1,5 +1,5 @@
 from cleaning_service.infrastructure.config import Config
-from cleaning_service.infrastructure.database.models import Base, Room, RoomStatus, Cleaning
+from cleaning_service.infrastructure.database.models import Base, Cleaning, Room, RoomStatus
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
@@ -12,6 +12,7 @@ Base.metadata.create_all(bind=engine)
 
 # Create a session factory
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
 
 # Function to initialize sample data
 def initialize_data():
@@ -30,8 +31,10 @@ def initialize_data():
     finally:
         db.close()
 
+
 # Initialize the sample data
 initialize_data()
+
 
 # Dependency to get a database session
 def get_db():

@@ -3,6 +3,7 @@ from sqlalchemy.ext.declarative import declarative_base
 Base = declarative_base()
 
 from enum import Enum
+
 from sqlalchemy import Column, Date
 from sqlalchemy import Enum as SQLEnum
 from sqlalchemy import Integer, String

@@ -1,4 +1,5 @@
 from typing import Type
+
 from dining_service.infrastructure.database.models import DiningReservation
 from sqlalchemy.orm import Session
 

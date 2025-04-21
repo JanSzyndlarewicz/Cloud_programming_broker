@@ -4,9 +4,8 @@ from contextlib import asynccontextmanager
 
 import uvicorn
 import yaml
-from fastapi import FastAPI
-
 from booking_service.app.api.routers import router
+from fastapi import FastAPI
 
 # Load logging configuration
 current_dir = os.path.dirname(os.path.abspath(__file__))

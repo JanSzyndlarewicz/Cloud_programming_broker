@@ -3,7 +3,6 @@ import logging
 from typing import Any
 
 import pika
-
 from dining_service.infrastructure.config import Config
 from dining_service.infrastructure.event_bus.abstractions import EventBus
 

@@ -8,4 +8,3 @@ class CleaningCreatedEventPublisher:
 
     def publish(self, event: CleaningCreatedEvent):
         self.event_bus.publish(event, exchange_type="direct", routing_key="cleaning_created")
-

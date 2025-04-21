@@ -1,9 +1,9 @@
-from fastapi import APIRouter, Depends
-from sqlalchemy.orm import Session
 from dining_service.app.api.controllers import DiningController
 from dining_service.app.query.get_dining_reservations_query_handler import GetDiningReservationsQueryHandler
 from dining_service.infrastructure.database.init import get_db
 from dining_service.infrastructure.database.repositories import DiningReservationRepository
+from fastapi import APIRouter, Depends
+from sqlalchemy.orm import Session
 
 router = APIRouter()
 

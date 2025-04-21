@@ -9,6 +9,7 @@ from dining_service.infrastructure.database.repositories import DiningReservatio
 
 logger = logging.getLogger(__name__)
 
+
 class BookingCreatedEventSubscriber:
     def __init__(
         self,

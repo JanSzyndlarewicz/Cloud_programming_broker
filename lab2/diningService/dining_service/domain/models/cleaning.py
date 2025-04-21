@@ -2,8 +2,7 @@ from sqlalchemy.orm import declarative_base
 
 Base = declarative_base()
 
-from sqlalchemy import Column, Date, Time
-from sqlalchemy import Integer, String
+from sqlalchemy import Column, Date, Integer, String, Time
 
 
 class DiningReservation(Base):

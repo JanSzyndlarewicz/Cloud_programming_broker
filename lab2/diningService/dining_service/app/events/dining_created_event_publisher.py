@@ -8,4 +8,3 @@ class DiningCreatedEventPublisher:
 
     def publish(self, event: DiningCreatedEvent):
         self.event_bus.publish(event, exchange_type="direct", routing_key="dining_created")
-

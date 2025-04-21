@@ -1,5 +1,6 @@
 from typing import Type
-from cleaning_service.infrastructure.database.models import Room, Cleaning
+
+from cleaning_service.infrastructure.database.models import Cleaning, Room
 from sqlalchemy.orm import Session
 
 

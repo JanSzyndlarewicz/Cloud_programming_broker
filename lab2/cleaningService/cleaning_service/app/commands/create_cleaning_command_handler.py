@@ -1,13 +1,12 @@
+import logging
 from datetime import datetime
 from typing import Optional
 
 from cleaning_service.app.commands.create_cleaning_command import CreateCleaningCommand
 from cleaning_service.app.events.cleaning_created_event_publisher import CleaningCreatedEventPublisher
 from cleaning_service.domain.events.cleaning_created import CleaningCreatedEvent
-from cleaning_service.infrastructure.database.models import RoomStatus, Cleaning
+from cleaning_service.infrastructure.database.models import Cleaning, RoomStatus
 from cleaning_service.infrastructure.database.repositories import CleaningRepository, RoomRepository
-
-import logging
 
 logger = logging.getLogger(__name__)
 

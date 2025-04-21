@@ -57,7 +57,6 @@ class RabbitMQEventBus(EventBus):
         self.channel.close()
         self.connection.close()
 
-
     def __del__(self):
         logger.info("Closing RabbitMQ connection in destructor.")
         self.close()

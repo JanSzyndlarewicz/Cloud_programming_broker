@@ -1,3 +1,4 @@
+import logging
 from datetime import datetime
 from typing import Optional
 
@@ -6,8 +7,6 @@ from dining_service.app.events.dining_created_event_publisher import DiningCreat
 from dining_service.domain.events.dining_created import DiningCreatedEvent
 from dining_service.infrastructure.database.models import DiningReservation
 from dining_service.infrastructure.database.repositories import DiningReservationRepository
-
-import logging
 
 logger = logging.getLogger(__name__)
 
