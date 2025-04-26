@@ -43,10 +43,25 @@ services:
     networks:
       - db_net
 
+  accounting-db:
+    image: postgres:15
+    container_name: accounting_postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: accounting_db
+    ports:
+      - "5436:5432"  # Host port 5436 → Container port 5432
+    volumes:
+      - accounting_data:/var/lib/postgresql/data
+    networks:
+      - db_net
+
 volumes:
   booking_data:
   cleaning_data:
   dining_data:
+  accounting_data:
 
 networks:
   db_net:
