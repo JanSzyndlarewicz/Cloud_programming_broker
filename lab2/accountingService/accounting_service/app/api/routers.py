@@ -1,18 +1,28 @@
-from accounting_service.app.api.controllers import DiningController
-from accounting_service.app.query.get_dining_reservations_query_handler import GetDiningReservationsQueryHandler
+from accounting_service.app.api.controllers import InvoiceController
+from accounting_service.app.query.get_invoices_query_handler import GetInvoicesQueryHandler
 from accounting_service.infrastructure.database.init import get_db
-from accounting_service.infrastructure.database.repositories import DiningReservationRepository
+from accounting_service.infrastructure.database.repositories import InvoiceRepository
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 router = APIRouter()
 
 
-def get_dining_controller(db: Session = Depends(get_db)):
-    dining_repository = DiningReservationRepository(db)
-    return DiningController(GetDiningReservationsQueryHandler(dining_repository))
+def get_invoice_controller(db: Session = Depends(get_db)):
+    invoice_repository = InvoiceRepository(db)
+    return InvoiceController(GetInvoicesQueryHandler(invoice_repository))
 
 
-@router.get("/dining-reservations")
-async def list_dining_reservations(controller: DiningController = Depends(get_dining_controller)):
-    return await controller.get_dining_reservations()
+@router.get("/invoices")
+async def list_invoices(controller: InvoiceController = Depends(get_invoice_controller)):
+    return await controller.get_invoices()
+
+
+@router.get("/invoices/{invoice_id}")
+async def get_invoice_by_id(invoice_id: int, controller: InvoiceController = Depends(get_invoice_controller)):
+    return await controller.get_invoice_by_id(invoice_id)
+
+
+@router.get("/invoices/search")
+async def search_invoices_by_email(email: str, controller: InvoiceController = Depends(get_invoice_controller)):
+    return await controller.search_invoices_by_email(email)

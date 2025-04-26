@@ -1,8 +1,9 @@
 import logging
 from datetime import datetime, timedelta
+from typing import Optional
 
+from accounting_service.app.commands.create_invoice_command import CreateInvoiceCommand
 from accounting_service.app.events.invoice_created_event_publisher import InvoiceCreatedEventPublisher
-from accounting_service.domain.events.booking_created import BookingCreatedEvent
 from accounting_service.domain.events.invoice_created import InvoiceCreatedEvent
 from accounting_service.infrastructure.database.models import Invoice
 from accounting_service.infrastructure.database.repositories import InvoiceRepository
@@ -10,7 +11,7 @@ from accounting_service.infrastructure.database.repositories import InvoiceRepos
 logger = logging.getLogger(__name__)
 
 
-class BookingCreatedEventSubscriber:
+class CreateInvoiceCommandHandler:
     def __init__(
         self,
         invoice_repository: InvoiceRepository,
@@ -19,30 +20,32 @@ class BookingCreatedEventSubscriber:
         self.invoice_repository = invoice_repository
         self.event_publisher = event_publisher
 
-    def handle(self, event: dict):
-        logger.info(f"Handling BookingCreatedEvent: {event}")
+    def handle(self, command: CreateInvoiceCommand) -> Optional[int]:
         try:
-            # Convert dictionary to BookingCreatedEvent
-            logger.info(f"Converting event to BookingCreatedEvent: {event}")
-            event_obj = BookingCreatedEvent(**event)
-            logger.info(f"Converted event: {event_obj.model_dump()}")
+            # Convert and validate check-in and check-out dates
+            check_in_date = datetime.strptime(command.check_in, "%Y-%m-%d").date()
+            check_out_date = datetime.strptime(command.check_out, "%Y-%m-%d").date()
+            due_date = check_out_date + timedelta(days=7)
 
-            # Create an invoice for the booking
-            due_date = datetime.strptime(event_obj.check_out, "%Y-%m-%d").date() + timedelta(days=7)
+            # Create invoice
             invoice = Invoice(
-                order_id=event_obj.booking_id,
-                total_amount=event_obj.total_cost,
-                booking_id=event_obj.booking_id,
-                guest_name=event_obj.guest_name,
-                guest_email=event_obj.guest_email,
-                check_in=datetime.strptime(event_obj.check_in, "%Y-%m-%d").date(),
-                check_out=datetime.strptime(event_obj.check_out, "%Y-%m-%d").date(),
+                order_id=command.booking_id,
+                total_amount=command.total_cost,
+                booking_id=command.booking_id,
+                guest_name=command.guest_name,
+                guest_email=command.guest_email,
+                check_in=check_in_date,
+                check_out=check_out_date,
                 due_date=due_date,
             )
-            self.invoice_repository.session.add(invoice)
-            self.invoice_repository.session.commit()  # Commit to generate the ID
 
-            invoice_event = InvoiceCreatedEvent(
+            # Save invoice
+            self.invoice_repository.session.add(invoice)
+            self.invoice_repository.session.commit()
+            self.invoice_repository.session.refresh(invoice)
+
+            # Publish event
+            event = InvoiceCreatedEvent(
                 invoice_id=invoice.id,
                 order_id=invoice.order_id,
                 total_amount=invoice.total_amount,
@@ -55,9 +58,11 @@ class BookingCreatedEventSubscriber:
                 check_in=invoice.check_in.isoformat(),
                 check_out=invoice.check_out.isoformat(),
             )
-            self.event_publisher.publish(invoice_event)
+            self.event_publisher.publish(event)
+
+            return invoice.id
 
         except Exception as e:
-            logger.error(f"Failed to handle BookingCreatedEvent: {str(e)}")
+            logger.info(f"Invoice creation failed: {str(e)}")
             self.invoice_repository.session.rollback()
             raise
