@@ -1,28 +1,55 @@
-from notification_service.app.api.controllers import InvoiceController
-from notification_service.app.query.get_invoices_query_handler import GetInvoicesQueryHandler
-from notification_service.infrastructure.database.init import get_db
-from notification_service.infrastructure.database.repositories import InvoiceRepository
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
+
+from notification_service.app.api.controllers import EmailController
+from notification_service.app.commands.create_invoice_command import SendEmailCommand
+from notification_service.app.commands.create_invoice_command_handler import SendEmailCommandHandler
+from notification_service.app.query.get_email_by_invoice_id_query_handler import GetEmailByInvoiceIdQueryHandler
+from notification_service.app.query.get_emails_by_mail_recipients_query_handler import GetEmailsByMailRecipientQueryHandler
+from notification_service.app.query.get_emails_query_handler import GetEmailsQueryHandler
+from notification_service.infrastructure.database.init import get_db
+from notification_service.infrastructure.database.repositories import EmailLogRepository
+from notification_service.app.services.email_service import EmailService
+from notification_service.app.events.email_sent_event_publisher import EmailSentEventPublisher
 
 router = APIRouter()
 
 
-def get_invoice_controller(db: Session = Depends(get_db)):
-    invoice_repository = InvoiceRepository(db)
-    return InvoiceController(GetInvoicesQueryHandler(invoice_repository))
+def get_email_controller(db: Session = Depends(get_db)):
+    email_log_repository = EmailLogRepository(db)
+    email_service = EmailService()
+    event_publisher = EmailSentEventPublisher()
+    send_email_command_handler = SendEmailCommandHandler(
+        email_service=email_service,
+        email_log_repository=email_log_repository,
+        event_publisher=event_publisher,
+    )
+    get_email_by_invoice_id_query_handler = GetEmailByInvoiceIdQueryHandler(email_log_repository)
+    get_emails_by_mail_recipient_query_handler = GetEmailsByMailRecipientQueryHandler(email_log_repository)
+    get_emails_query_handler = GetEmailsQueryHandler(email_log_repository)
+    return EmailController(
+        send_email_command_handler=send_email_command_handler,
+        get_email_by_invoice_id_query_handler=get_email_by_invoice_id_query_handler,
+        get_emails_by_mail_recipient_query_handler=get_emails_by_mail_recipient_query_handler,
+        get_emails_query_handler=get_emails_query_handler,
+    )
 
 
-@router.get("/invoices")
-async def list_invoices(controller: InvoiceController = Depends(get_invoice_controller)):
-    return await controller.get_invoices()
+@router.post("/emails/send")
+async def send_email(command: SendEmailCommand, controller: EmailController = Depends(get_email_controller)):
+    return await controller.send_email(command)
 
 
-@router.get("/invoices/{invoice_id}")
-async def get_invoice_by_id(invoice_id: int, controller: InvoiceController = Depends(get_invoice_controller)):
-    return await controller.get_invoice_by_id(invoice_id)
+@router.get("/emails/{invoice_id}")
+async def get_email_by_invoice_id(invoice_id: int, controller: EmailController = Depends(get_email_controller)):
+    return await controller.get_email_by_invoice_id(invoice_id)
 
 
-@router.get("/invoices/search")
-async def search_invoices_by_email(email: str, controller: InvoiceController = Depends(get_invoice_controller)):
-    return await controller.search_invoices_by_email(email)
+@router.get("/emails/recipient")
+async def get_emails_by_recipient(recipient_email: str, controller: EmailController = Depends(get_email_controller)):
+    return await controller.get_emails_by_recipient(recipient_email)
+
+
+@router.get("/emails")
+async def get_all_emails(controller: EmailController = Depends(get_email_controller)):
+    return await controller.get_all_emails()

@@ -1,68 +1,62 @@
 import logging
-from datetime import datetime, timedelta
 from typing import Optional
 
-from notification_service.app.commands.create_invoice_command import CreateInvoiceCommand
-from notification_service.app.events.invoice_created_event_publisher import InvoiceCreatedEventPublisher
-from notification_service.domain.events.invoice_created import InvoiceCreatedEvent
-from notification_service.infrastructure.database.models import Invoice
-from notification_service.infrastructure.database.repositories import InvoiceRepository
+from notification_service.app.commands.create_invoice_command import SendEmailCommand
+from notification_service.app.services.email_service import EmailService
+from notification_service.domain.events.email_sent import EmailSentEvent
+from notification_service.infrastructure.database.models import EmailLog
+from notification_service.infrastructure.database.repositories import EmailLogRepository
+from notification_service.app.events.email_sent_event_publisher import EmailSentEventPublisher
 
 logger = logging.getLogger(__name__)
 
 
-class CreateInvoiceCommandHandler:
+class SendEmailCommandHandler:
     def __init__(
         self,
-        invoice_repository: InvoiceRepository,
-        event_publisher: InvoiceCreatedEventPublisher,
+        email_service: EmailService,
+        email_log_repository: EmailLogRepository,
+        event_publisher: EmailSentEventPublisher,
     ):
-        self.invoice_repository = invoice_repository
+        self.email_service = email_service
+        self.email_log_repository = email_log_repository
         self.event_publisher = event_publisher
 
-    def handle(self, command: CreateInvoiceCommand) -> Optional[int]:
+    def handle(self, command: SendEmailCommand) -> Optional[bool]:
         try:
-            # Convert and validate check-in and check-out dates
-            check_in_date = datetime.strptime(command.check_in, "%Y-%m-%d").date()
-            check_out_date = datetime.strptime(command.check_out, "%Y-%m-%d").date()
-            due_date = check_out_date + timedelta(days=7)
-
-            # Create invoice
-            invoice = Invoice(
-                order_id=command.booking_id,
-                total_amount=command.total_cost,
-                booking_id=command.booking_id,
-                guest_name=command.guest_name,
-                guest_email=command.guest_email,
-                check_in=check_in_date,
-                check_out=check_out_date,
-                due_date=due_date,
+            # Send email
+            self.email_service.send_email(
+                recipient=command.recipient_email,
+                subject=command.subject,
+                body=command.body,
             )
+            logger.info(f"Email sent successfully to {command.recipient_email}")
 
-            # Save invoice
-            self.invoice_repository.session.add(invoice)
-            self.invoice_repository.session.commit()
-            self.invoice_repository.session.refresh(invoice)
+            # Save email log in the database
+            email_log = EmailLog(
+                invoice_id=command.invoice_id,
+                recipient_email=command.recipient_email,
+                subject=command.subject,
+                body=command.body,
+                status="sent",
+            )
+            self.email_log_repository.session.add(email_log)
+            self.email_log_repository.session.commit()
+            self.email_log_repository.session.refresh(email_log)
 
-            # Publish event
-            event = InvoiceCreatedEvent(
-                invoice_id=invoice.id,
-                order_id=invoice.order_id,
-                total_amount=invoice.total_amount,
-                status=invoice.status,
-                issued_date=invoice.issued_date.isoformat(),
-                due_date=invoice.due_date.isoformat(),
-                booking_id=invoice.booking_id,
-                guest_name=invoice.guest_name,
-                guest_email=invoice.guest_email,
-                check_in=invoice.check_in.isoformat(),
-                check_out=invoice.check_out.isoformat(),
+            # Publish email sent event
+            event = EmailSentEvent(
+                email_log_id=email_log.id,
+                invoice_id=email_log.invoice_id,
+                recipient_email=email_log.recipient_email,
+                subject=email_log.subject,
+                status=email_log.status,
             )
             self.event_publisher.publish(event)
 
-            return invoice.id
+            return True
 
         except Exception as e:
-            logger.info(f"Invoice creation failed: {str(e)}")
-            self.invoice_repository.session.rollback()
+            logger.error(f"Failed to send email: {str(e)}")
+            self.email_log_repository.session.rollback()
             raise

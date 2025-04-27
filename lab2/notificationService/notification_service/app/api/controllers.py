@@ -1,46 +1,52 @@
-from notification_service.app.commands.create_invoice_command import CreateInvoiceCommand
-from notification_service.app.commands.create_invoice_command_handler import CreateInvoiceCommandHandler
-from notification_service.app.query.get_invoice_query_handler import GetInvoiceQueryHandler
-from notification_service.app.query.get_invoices_by_email_query_handler import GetInvoicesByEmailQueryHandler
-from notification_service.app.query.get_invoices_query_handler import GetInvoicesQueryHandler
 from fastapi import HTTPException
 
+from notification_service.app.commands.create_invoice_command import SendEmailCommand
+from notification_service.app.commands.create_invoice_command_handler import SendEmailCommandHandler
+from notification_service.app.query.get_email_by_invoice_id_query_handler import GetEmailByInvoiceIdQueryHandler
+from notification_service.app.query.get_emails_by_mail_recipients_query_handler import GetEmailsByMailRecipientQueryHandler
+from notification_service.app.query.get_emails_query_handler import GetEmailsQueryHandler
 
-class InvoiceController:
+
+class EmailController:
     def __init__(
         self,
-        create_invoice_command_handler: CreateInvoiceCommandHandler,
-        get_invoices_query_handler: GetInvoicesQueryHandler,
-        get_invoice_query_handler: GetInvoiceQueryHandler,
-        get_invoices_by_email_query_handler: GetInvoicesByEmailQueryHandler,
+        send_email_command_handler: SendEmailCommandHandler,
+        get_email_by_invoice_id_query_handler: GetEmailByInvoiceIdQueryHandler,
+        get_emails_by_mail_recipient_query_handler: GetEmailsByMailRecipientQueryHandler,
+        get_emails_query_handler: GetEmailsQueryHandler,
     ):
-        self.create_invoice_command_handler = create_invoice_command_handler
-        self.get_invoices_query_handler = get_invoices_query_handler
-        self.get_invoice_query_handler = get_invoice_query_handler
-        self.get_invoices_by_email_query_handler = get_invoices_by_email_query_handler
+        self.send_email_command_handler = send_email_command_handler
+        self.get_email_by_invoice_id_query_handler = get_email_by_invoice_id_query_handler
+        self.get_emails_by_mail_recipient_query_handler = get_emails_by_mail_recipient_query_handler
+        self.get_emails_query_handler = get_emails_query_handler
 
-
-    async def create_invoice(self, command: CreateInvoiceCommand) -> dict:
+    async def send_email(self, command: SendEmailCommand) -> dict:
         try:
-            invoice_id = self.create_invoice_command_handler.handle(command)
-            return {"invoice_id": invoice_id, "status": "created"}
+            success = self.send_email_command_handler.handle(command)
+            if success:
+                return {"status": "email_sent"}
+            else:
+                raise HTTPException(status_code=500, detail="Failed to send email")
         except Exception as e:
             raise HTTPException(status_code=400, detail=str(e))
 
-    async def get_invoices(self):
+    async def get_email_by_invoice_id(self, invoice_id: int):
         try:
-            return self.get_invoices_query_handler.handle()
+            email_log = self.get_email_by_invoice_id_query_handler.handle(invoice_id)
+            if not email_log:
+                raise HTTPException(status_code=404, detail="Email not found for the given invoice ID")
+            return email_log
         except Exception as e:
             raise HTTPException(status_code=400, detail=str(e))
 
-    async def get_invoice_by_id(self, invoice_id: int):
+    async def get_emails_by_recipient(self, recipient_email: str):
         try:
-            return self.get_invoice_query_handler.handle(invoice_id)
+            return self.get_emails_by_mail_recipient_query_handler.handle(recipient_email)
         except Exception as e:
-            raise HTTPException(status_code=404, detail=str(e))
+            raise HTTPException(status_code=400, detail=str(e))
 
-    async def search_invoices_by_email(self, email: str):
+    async def get_all_emails(self):
         try:
-            return self.get_invoices_by_email_query_handler.handle(email)
+            return self.get_emails_query_handler.handle()
         except Exception as e:
             raise HTTPException(status_code=400, detail=str(e))

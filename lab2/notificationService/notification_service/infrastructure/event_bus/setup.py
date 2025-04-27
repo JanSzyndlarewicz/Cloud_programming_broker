@@ -1,18 +1,22 @@
-from notification_service.app.events.booking_created_event_subscriber import BookingCreatedEventSubscriber
-from notification_service.app.events.invoice_created_event_publisher import InvoiceCreatedEventPublisher
-from notification_service.infrastructure.database.repositories import InvoiceRepository
-
-from notification_service.infrastructure.event_bus.rabbitmq_event_bus import RabbitMQEventBus
 from sqlalchemy.orm import Session
+
+from notification_service.app.events.email_sent_event_publisher import EmailSentEventPublisher
+from notification_service.app.events.invoice_created_event_subscriber import InvoiceCreatedEventSubscriber
+from notification_service.app.services.email_service import EmailService
+from notification_service.infrastructure.database.repositories import EmailLogRepository
+from notification_service.infrastructure.event_bus.rabbitmq_event_bus import RabbitMQEventBus
 
 
 def setup_event_subscribers(db: Session, event_bus: RabbitMQEventBus):
-    invoice_repository = InvoiceRepository(db)
-    event_publisher = InvoiceCreatedEventPublisher(event_bus)
+    # Initialize the repositories
+    email_log_repository = EmailLogRepository(db)
+    email_sent_event_publisher = EmailSentEventPublisher(event_bus)
+    email_service = EmailService()
 
-    booking_created_subscriber = BookingCreatedEventSubscriber(invoice_repository, event_publisher)
+    invoice_created_subscriber = InvoiceCreatedEventSubscriber(email_log_repository, email_service,
+                                                               email_sent_event_publisher)
 
     # Subscribe to the "booking_created" event type
     event_bus.subscribe(
-        queue=f"invoice_created_queue", callback=booking_created_subscriber.handle, exchange_type="fanout"
+        queue=f"invoice_created_queue", callback=invoice_created_subscriber.handle, exchange_type="direct", routing_key="invoice_created"
     )
