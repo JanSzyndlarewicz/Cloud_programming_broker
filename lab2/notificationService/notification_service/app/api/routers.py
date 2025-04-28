@@ -1,23 +1,30 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from notification_service.app.api.controllers import EmailController
 from notification_service.app.commands.create_invoice_command import SendEmailCommand
 from notification_service.app.commands.create_invoice_command_handler import SendEmailCommandHandler
+from notification_service.app.events.email_sent_event_publisher import EmailSentEventPublisher
 from notification_service.app.query.get_email_by_invoice_id_query_handler import GetEmailByInvoiceIdQueryHandler
-from notification_service.app.query.get_emails_by_mail_recipients_query_handler import GetEmailsByMailRecipientQueryHandler
+from notification_service.app.query.get_emails_by_mail_recipients_query_handler import \
+    GetEmailsByMailRecipientQueryHandler
 from notification_service.app.query.get_emails_query_handler import GetEmailsQueryHandler
+from notification_service.app.services.email_service import EmailService
+from notification_service.infrastructure.config import Config
 from notification_service.infrastructure.database.init import get_db
 from notification_service.infrastructure.database.repositories import EmailLogRepository
-from notification_service.app.services.email_service import EmailService
-from notification_service.app.events.email_sent_event_publisher import EmailSentEventPublisher
 
 router = APIRouter()
 
 
 def get_email_controller(db: Session = Depends(get_db)):
     email_log_repository = EmailLogRepository(db)
-    email_service = EmailService()
+    email_service = EmailService(
+        Config.SMTP_SERVER,
+        Config.SMTP_PORT,
+        Config.SMTP_USERNAME,
+        Config.SMTP_PASSWORD,
+    )
     event_publisher = EmailSentEventPublisher()
     send_email_command_handler = SendEmailCommandHandler(
         email_service=email_service,

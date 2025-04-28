@@ -39,10 +39,19 @@ class RabbitMQEventBus(EventBus):
             body=json.dumps(event.__dict__),
         )
 
-    def subscribe(self, queue: str, callback: callable, exchange_type: str = "direct", routing_key: str = ""):
+    def subscribe(
+            self,
+            queue: str,
+            callback: callable,
+            exchange_type: str = "direct",
+            routing_key: str = "",
+            declare_queue: bool = True
+    ):
         exchange = self.direct_exchange if exchange_type == "direct" else self.broadcast_exchange
 
-        self.channel.queue_declare(queue=queue, durable=True)
+        if declare_queue:
+            self.channel.queue_declare(queue=queue, durable=True)
+
         self.channel.queue_bind(exchange=exchange, queue=queue, routing_key=routing_key)
 
         def wrapped_callback(ch, method, properties, body):

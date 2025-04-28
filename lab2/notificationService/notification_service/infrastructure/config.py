@@ -21,3 +21,8 @@ class Config:
     DATABASE_URL = (
         f"postgresql+psycopg2://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_HOST}:{POSTGRES_PORT}/{POSTGRES_DB}"
     )
+
+    SMTP_SERVER = os.getenv("SMTP_SERVER", "smtp.example.com")
+    SMTP_PORT = int(os.getenv("SMTP_PORT", 587))
+    SMTP_USERNAME = os.getenv("SMTP_USERNAME", "your_email@example.com")
+    SMTP_PASSWORD = os.getenv("SMTP_PASSWORD", "your_password")

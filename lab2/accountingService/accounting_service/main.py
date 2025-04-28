@@ -23,7 +23,7 @@ logger = logging.getLogger("app")
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    logger.info("Application dining is starting up...")
+    logger.info("Application accounting is starting up...")
 
     # Initialize the database session
     db = next(get_db())
