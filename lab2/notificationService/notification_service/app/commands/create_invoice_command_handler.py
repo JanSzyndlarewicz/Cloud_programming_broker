@@ -2,11 +2,11 @@ import logging
 from typing import Optional
 
 from notification_service.app.commands.create_invoice_command import SendEmailCommand
+from notification_service.app.events.email_sent_event_publisher import EmailSentEventPublisher
 from notification_service.app.services.email_service import EmailService
 from notification_service.domain.events.email_sent import EmailSentEvent
 from notification_service.infrastructure.database.models import EmailLog
 from notification_service.infrastructure.database.repositories import EmailLogRepository
-from notification_service.app.events.email_sent_event_publisher import EmailSentEventPublisher
 
 logger = logging.getLogger(__name__)
 

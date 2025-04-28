@@ -1,7 +1,8 @@
+from sqlalchemy import Column, Date, Float, Integer, String, func
 from sqlalchemy.orm import declarative_base
-from sqlalchemy import Column, Integer, Float, String, Date, func
 
 Base = declarative_base()
+
 
 class Invoice(Base):
     __tablename__ = "invoices"

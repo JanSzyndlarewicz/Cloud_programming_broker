@@ -1,9 +1,8 @@
 from datetime import datetime
 from typing import List, Type
 
-from sqlalchemy.orm import Session
-
 from notification_service.infrastructure.database.models import EmailLog
+from sqlalchemy.orm import Session
 
 
 class EmailLogRepository:

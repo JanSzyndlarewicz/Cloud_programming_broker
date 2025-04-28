@@ -40,12 +40,12 @@ class RabbitMQEventBus(EventBus):
         )
 
     def subscribe(
-            self,
-            queue: str,
-            callback: callable,
-            exchange_type: str = "direct",
-            routing_key: str = "",
-            declare_queue: bool = True
+        self,
+        queue: str,
+        callback: callable,
+        exchange_type: str = "direct",
+        routing_key: str = "",
+        declare_queue: bool = True,
     ):
         exchange = self.direct_exchange if exchange_type == "direct" else self.broadcast_exchange
 

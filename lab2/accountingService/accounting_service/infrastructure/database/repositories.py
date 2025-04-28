@@ -1,9 +1,8 @@
 from datetime import datetime
 from typing import List, Type
 
-from sqlalchemy.orm import Session
-
 from accounting_service.infrastructure.database.models import Invoice
+from sqlalchemy.orm import Session
 
 
 class InvoiceRepository:

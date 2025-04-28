@@ -1,7 +1,7 @@
 import logging
 import smtplib
-from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 
 logger = logging.getLogger(__name__)
 
@@ -17,10 +17,10 @@ class EmailService:
         try:
             # Create the email
             msg = MIMEMultipart()
-            msg['From'] = self.username
-            msg['To'] = recipient
-            msg['Subject'] = subject
-            msg.attach(MIMEText(body, 'plain'))
+            msg["From"] = self.username
+            msg["To"] = recipient
+            msg["Subject"] = subject
+            msg.attach(MIMEText(body, "plain"))
 
             # Connect to the SMTP server and send the email
             with smtplib.SMTP(self.smtp_server, self.smtp_port) as server:

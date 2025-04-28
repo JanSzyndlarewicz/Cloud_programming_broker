@@ -1,18 +1,18 @@
 from fastapi import APIRouter, Depends
-from sqlalchemy.orm import Session
-
 from notification_service.app.api.controllers import EmailController
 from notification_service.app.commands.create_invoice_command import SendEmailCommand
 from notification_service.app.commands.create_invoice_command_handler import SendEmailCommandHandler
 from notification_service.app.events.email_sent_event_publisher import EmailSentEventPublisher
 from notification_service.app.query.get_email_by_invoice_id_query_handler import GetEmailByInvoiceIdQueryHandler
-from notification_service.app.query.get_emails_by_mail_recipients_query_handler import \
-    GetEmailsByMailRecipientQueryHandler
+from notification_service.app.query.get_emails_by_mail_recipients_query_handler import (
+    GetEmailsByMailRecipientQueryHandler,
+)
 from notification_service.app.query.get_emails_query_handler import GetEmailsQueryHandler
 from notification_service.app.services.email_service import EmailService
 from notification_service.infrastructure.config import Config
 from notification_service.infrastructure.database.init import get_db
 from notification_service.infrastructure.database.repositories import EmailLogRepository
+from sqlalchemy.orm import Session
 
 router = APIRouter()
 

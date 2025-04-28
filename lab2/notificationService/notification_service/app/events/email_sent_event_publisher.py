@@ -1,6 +1,6 @@
+from notification_service.domain.events.email_sent import EmailSentEvent
 from notification_service.infrastructure.config import Config
 from notification_service.infrastructure.event_bus.rabbitmq_event_bus import RabbitMQEventBus
-from notification_service.domain.events.email_sent import EmailSentEvent
 
 
 class EmailSentEventPublisher:

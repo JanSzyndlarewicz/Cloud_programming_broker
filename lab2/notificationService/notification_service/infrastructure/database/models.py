@@ -1,7 +1,8 @@
-from sqlalchemy import Column, Date, Float, Integer, String, func, DateTime
+from sqlalchemy import Column, Date, DateTime, Float, Integer, String, func
 from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
+
 
 class EmailLog(Base):
     __tablename__ = "sent_emails"

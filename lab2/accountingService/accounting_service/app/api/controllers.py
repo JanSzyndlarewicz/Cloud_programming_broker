@@ -19,7 +19,6 @@ class InvoiceController:
         self.get_invoice_query_handler = get_invoice_query_handler
         self.get_invoices_by_email_query_handler = get_invoices_by_email_query_handler
 
-
     async def create_invoice(self, command: CreateInvoiceCommand) -> dict:
         try:
             invoice_id = self.create_invoice_command_handler.handle(command)
