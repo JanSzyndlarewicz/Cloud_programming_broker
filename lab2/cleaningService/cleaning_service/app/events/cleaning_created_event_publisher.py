@@ -1,4 +1,5 @@
 from cleaning_service.domain.events.cleaning_created import CleaningCreatedEvent
+from cleaning_service.infrastructure.config import Config
 from cleaning_service.infrastructure.event_bus.rabbitmq_event_bus import RabbitMQEventBus
 
 
@@ -7,4 +8,4 @@ class CleaningCreatedEventPublisher:
         self.event_bus = event_bus
 
     def publish(self, event: CleaningCreatedEvent):
-        self.event_bus.publish(event, exchange_type="direct", routing_key="cleaning_created")
+        self.event_bus.publish(event, exchange_type="direct", routing_key=Config.CLEANING_CREATED_ROUTING_KEY)

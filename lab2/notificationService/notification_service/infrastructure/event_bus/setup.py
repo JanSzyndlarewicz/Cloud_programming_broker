@@ -23,5 +23,5 @@ def setup_event_subscribers(db: Session, event_bus: RabbitMQEventBus):
 
     # Subscribe to the "invoice_created" event type
     event_bus.subscribe(
-        queue="email_sent_queue", callback=invoice_created_subscriber.handle, exchange_type="direct", routing_key="invoice_created"
+        queue="email_sent_queue", callback=invoice_created_subscriber.handle, exchange_type="direct", routing_key=Config.INVOICE_CREATED_ROUTING_KEY
     )

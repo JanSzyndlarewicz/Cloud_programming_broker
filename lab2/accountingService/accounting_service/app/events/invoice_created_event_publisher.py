@@ -1,4 +1,5 @@
 from accounting_service.domain.events.invoice_created import InvoiceCreatedEvent
+from accounting_service.infrastructure.config import Config
 from accounting_service.infrastructure.event_bus.rabbitmq_event_bus import RabbitMQEventBus
 
 
@@ -7,4 +8,4 @@ class InvoiceCreatedEventPublisher:
         self.event_bus = event_bus
 
     def publish(self, event: InvoiceCreatedEvent):
-        self.event_bus.publish(event, exchange_type="direct", routing_key="invoice_created")
+        self.event_bus.publish(event, exchange_type="direct", routing_key=Config.INVOICE_CREATED_ROUTING_KEY)

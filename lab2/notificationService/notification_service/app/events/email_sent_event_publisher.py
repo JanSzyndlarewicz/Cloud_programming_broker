@@ -1,3 +1,4 @@
+from notification_service.infrastructure.config import Config
 from notification_service.infrastructure.event_bus.rabbitmq_event_bus import RabbitMQEventBus
 from notification_service.domain.events.email_sent import EmailSentEvent
 
@@ -7,4 +8,4 @@ class EmailSentEventPublisher:
         self.event_bus = event_bus
 
     def publish(self, event: EmailSentEvent):
-        self.event_bus.publish(event, exchange_type="direct", routing_key="email_sent")
+        self.event_bus.publish(event, exchange_type="direct", routing_key=Config.EMAIL_SENT_ROUTING_KEY)

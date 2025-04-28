@@ -26,3 +26,9 @@ class Config:
     SMTP_PORT = int(os.getenv("SMTP_PORT", 587))
     SMTP_USERNAME = os.getenv("SMTP_USERNAME", "your_email@example.com")
     SMTP_PASSWORD = os.getenv("SMTP_PASSWORD", "your_password")
+
+    INVOICE_CREATED_ROUTING_KEY = "event.invoice.created"
+    BOOKING_CREATED_ROUTING_KEY = "event.booking.created"
+    DINING_CREATED_ROUTING_KEY = "event.dining.created"
+    CLEANING_CREATED_ROUTING_KEY = "event.cleaning.created"
+    EMAIL_SENT_ROUTING_KEY = "event.email.sent"

@@ -21,3 +21,9 @@ class Config:
     DATABASE_URL = (
         f"postgresql+psycopg2://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_HOST}:{POSTGRES_PORT}/{POSTGRES_DB}"
     )
+
+    INVOICE_CREATED_ROUTING_KEY = "event.invoice.created"
+    BOOKING_CREATED_ROUTING_KEY = "event.booking.created"
+    DINING_CREATED_ROUTING_KEY = "event.dining.created"
+    CLEANING_CREATED_ROUTING_KEY = "event.cleaning.created"
+    EMAIL_SENT_ROUTING_KEY = "event.email.sent"

@@ -1,4 +1,5 @@
 from dining_service.domain.events.dining_created import DiningCreatedEvent
+from dining_service.infrastructure.config import Config
 from dining_service.infrastructure.event_bus.rabbitmq_event_bus import RabbitMQEventBus
 
 
@@ -7,4 +8,4 @@ class DiningCreatedEventPublisher:
         self.event_bus = event_bus
 
     def publish(self, event: DiningCreatedEvent):
-        self.event_bus.publish(event, exchange_type="direct", routing_key="dining_created")
+        self.event_bus.publish(event, exchange_type="direct", routing_key=Config.DINING_CREATED_ROUTING_KEY)
