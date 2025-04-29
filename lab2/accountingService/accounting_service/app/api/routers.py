@@ -1,5 +1,5 @@
 from accounting_service.app.api.controllers import InvoiceController
-from accounting_service.app.query.get_invoices_query_handler import GetInvoicesQueryHandler
+from accounting_service.app.queries.get_invoices_query_handler import GetInvoicesQueryHandler
 
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session

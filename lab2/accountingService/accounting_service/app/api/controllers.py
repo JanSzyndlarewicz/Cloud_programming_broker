@@ -1,8 +1,8 @@
 from accounting_service.app.commands.create_invoice_command import CreateInvoiceCommand
 from accounting_service.app.commands.create_invoice_command_handler import CreateInvoiceCommandHandler
-from accounting_service.app.query.get_invoice_query_handler import GetInvoiceQueryHandler
-from accounting_service.app.query.get_invoices_by_email_query_handler import GetInvoicesByEmailQueryHandler
-from accounting_service.app.query.get_invoices_query_handler import GetInvoicesQueryHandler
+from accounting_service.app.queries.get_invoice_query_handler import GetInvoiceQueryHandler
+from accounting_service.app.queries.get_invoices_by_email_query_handler import GetInvoicesByEmailQueryHandler
+from accounting_service.app.queries.get_invoices_query_handler import GetInvoicesQueryHandler
 from fastapi import HTTPException
 
 

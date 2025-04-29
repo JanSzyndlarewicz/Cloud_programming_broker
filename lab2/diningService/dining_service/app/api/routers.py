@@ -1,5 +1,5 @@
 from dining_service.app.api.controllers import DiningController
-from dining_service.app.query.get_dining_reservations_query_handler import GetDiningReservationsQueryHandler
+from dining_service.app.queries.get_dining_reservations_query_handler import GetDiningReservationsQueryHandler
 
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session

@@ -1,6 +1,6 @@
 from dining_service.app.commands.create_dining_command import CreateDiningCommand
 from dining_service.app.commands.create_dining_command_handler import CreateDiningCommandHandler
-from dining_service.app.query.get_dining_reservations_query_handler import GetDiningReservationsQueryHandler
+from dining_service.app.queries.get_dining_reservations_query_handler import GetDiningReservationsQueryHandler
 from fastapi import HTTPException
 
 

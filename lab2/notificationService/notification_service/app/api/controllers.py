@@ -1,11 +1,11 @@
 from fastapi import HTTPException
 from notification_service.app.commands.create_invoice_command import SendEmailCommand
 from notification_service.app.commands.create_invoice_command_handler import SendEmailCommandHandler
-from notification_service.app.query.get_email_by_invoice_id_query_handler import GetEmailByInvoiceIdQueryHandler
-from notification_service.app.query.get_emails_by_mail_recipients_query_handler import (
+from notification_service.app.queries.get_email_by_invoice_id_query_handler import GetEmailByInvoiceIdQueryHandler
+from notification_service.app.queries.get_emails_by_mail_recipients_query_handler import (
     GetEmailsByMailRecipientQueryHandler,
 )
-from notification_service.app.query.get_emails_query_handler import GetEmailsQueryHandler
+from notification_service.app.queries.get_emails_query_handler import GetEmailsQueryHandler
 
 
 class EmailController:

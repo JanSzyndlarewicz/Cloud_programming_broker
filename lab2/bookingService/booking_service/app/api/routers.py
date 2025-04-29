@@ -2,9 +2,9 @@ from booking_service.app.api.controllers import BookingController, RoomControlle
 from booking_service.app.commands.create_booking_command import CreateBookingCommand
 from booking_service.app.commands.create_booking_command_handler import CreateBookingCommandHandler
 from booking_service.app.events.booking_created_event import BookingCreatedEventPublisher
-from booking_service.app.query.get_booking_query_handler import GetBookingQueryHandler
-from booking_service.app.query.get_bookings_query_handler import GetBookingsQueryHandler
-from booking_service.app.query.get_rooms_query_handler import GetRoomsQueryHandler
+from booking_service.app.queries.get_booking_query_handler import GetBookingQueryHandler
+from booking_service.app.queries.get_bookings_query_handler import GetBookingsQueryHandler
+from booking_service.app.queries.get_rooms_query_handler import GetRoomsQueryHandler
 
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
