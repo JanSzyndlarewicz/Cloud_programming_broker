@@ -5,11 +5,14 @@ from booking_service.app.events.booking_created_event import BookingCreatedEvent
 from booking_service.app.query.get_booking_query_handler import GetBookingQueryHandler
 from booking_service.app.query.get_bookings_query_handler import GetBookingsQueryHandler
 from booking_service.app.query.get_rooms_query_handler import GetRoomsQueryHandler
-from booking_service.infrastructure.database.init import get_db
-from booking_service.infrastructure.database.repositories import BookingRepository, RoomRepository
-from booking_service.infrastructure.event_bus.rabbitmq_event_bus import RabbitMQEventBus
+
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
+
+from booking_service.infrastructure.messaging.event_bus import RabbitMQEventBus
+from booking_service.infrastructure.persistence import get_db
+from booking_service.infrastructure.persistence.repositories.booking_repository import BookingRepository
+from booking_service.infrastructure.persistence.repositories.room_repository import RoomRepository
 
 router = APIRouter()
 

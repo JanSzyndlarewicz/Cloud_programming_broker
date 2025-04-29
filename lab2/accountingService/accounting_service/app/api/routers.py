@@ -1,9 +1,11 @@
 from accounting_service.app.api.controllers import InvoiceController
 from accounting_service.app.query.get_invoices_query_handler import GetInvoicesQueryHandler
-from accounting_service.infrastructure.database.init import get_db
-from accounting_service.infrastructure.database.repositories import InvoiceRepository
+
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
+
+from accounting_service.infrastructure.persistence import get_db
+from accounting_service.infrastructure.persistence.repositories.invoice_repository import InvoiceRepository
 
 router = APIRouter()
 

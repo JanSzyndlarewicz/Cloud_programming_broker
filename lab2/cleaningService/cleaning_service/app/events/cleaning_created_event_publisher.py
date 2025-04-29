@@ -1,6 +1,6 @@
 from cleaning_service.domain.events.cleaning_created import CleaningCreatedEvent
-from cleaning_service.infrastructure.config import Config
-from cleaning_service.infrastructure.event_bus.rabbitmq_event_bus import RabbitMQEventBus
+from cleaning_service.infrastructure.config.settings import Config
+from cleaning_service.infrastructure.messaging.event_bus import RabbitMQEventBus
 
 
 class CleaningCreatedEventPublisher:

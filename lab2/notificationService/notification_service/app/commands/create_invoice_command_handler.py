@@ -5,8 +5,8 @@ from notification_service.app.commands.create_invoice_command import SendEmailCo
 from notification_service.app.events.email_sent_event_publisher import EmailSentEventPublisher
 from notification_service.app.services.email_service import EmailService
 from notification_service.domain.events.email_sent import EmailSentEvent
-from notification_service.infrastructure.database.models import EmailLog
-from notification_service.infrastructure.database.repositories import EmailLogRepository
+from notification_service.infrastructure.persistence.models.orm_email_log import EmailLog
+from notification_service.infrastructure.persistence.repositories.email_log_repository import EmailLogRepository
 
 logger = logging.getLogger(__name__)
 
@@ -32,7 +32,7 @@ class SendEmailCommandHandler:
             )
             logger.info(f"Email sent successfully to {command.recipient_email}")
 
-            # Save email log in the database
+            # Save email log in the persistence
             email_log = EmailLog(
                 invoice_id=command.invoice_id,
                 recipient_email=command.recipient_email,

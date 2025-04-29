@@ -2,11 +2,14 @@ from cleaning_service.app.api.controllers import CleaningController, RoomControl
 from cleaning_service.app.commands.create_cleaning_command import CreateCleaningCommand
 from cleaning_service.app.commands.create_cleaning_command_handler import CreateCleaningCommandHandler
 from cleaning_service.app.query.get_rooms_query_handler import GetRoomsQueryHandler
-from cleaning_service.infrastructure.database.init import get_db
-from cleaning_service.infrastructure.database.repositories import CleaningRepository, RoomRepository
-from cleaning_service.infrastructure.event_bus.rabbitmq_event_bus import RabbitMQEventBus
+
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
+
+from cleaning_service.infrastructure.messaging.event_bus import RabbitMQEventBus
+from cleaning_service.infrastructure.persistence import get_db
+from cleaning_service.infrastructure.persistence.repositories.cleaning_repository import CleaningRepository, \
+    RoomRepository
 
 router = APIRouter()
 

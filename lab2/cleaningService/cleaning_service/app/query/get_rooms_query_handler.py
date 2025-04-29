@@ -1,4 +1,4 @@
-from cleaning_service.infrastructure.database.repositories import RoomRepository
+from cleaning_service.infrastructure.persistence.repositories.cleaning_repository import RoomRepository
 
 
 class GetRoomsQueryHandler:

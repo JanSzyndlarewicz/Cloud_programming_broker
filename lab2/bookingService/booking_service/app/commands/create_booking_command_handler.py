@@ -6,8 +6,11 @@ from booking_service.app.commands.create_booking_command import CreateBookingCom
 from booking_service.app.events.booking_created_event import BookingCreatedEventPublisher
 from booking_service.domain.events.booking_created import BookingCreatedEvent
 from booking_service.domain.models.booking import Booking, BookingStatus
-from booking_service.infrastructure.database.models import RoomStatus
-from booking_service.infrastructure.database.repositories import BookingRepository, RoomRepository
+
+
+from booking_service.infrastructure.persistence.models.orm_room import RoomStatus
+from booking_service.infrastructure.persistence.repositories.booking_repository import BookingRepository
+from booking_service.infrastructure.persistence.repositories.room_repository import RoomRepository
 
 logger = logging.getLogger(__name__)
 

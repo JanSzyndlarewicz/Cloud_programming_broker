@@ -5,8 +5,9 @@ from typing import Optional
 from dining_service.app.commands.create_dining_command import CreateDiningCommand
 from dining_service.app.events.dining_created_event_publisher import DiningCreatedEventPublisher
 from dining_service.domain.events.dining_created import DiningCreatedEvent
-from dining_service.infrastructure.database.models import DiningReservation
-from dining_service.infrastructure.database.repositories import DiningReservationRepository
+from dining_service.infrastructure.persistence.models.orm_dining_reservation import DiningReservation
+from dining_service.infrastructure.persistence.repositories.dining_reservation_repository import \
+    DiningReservationRepository
 
 logger = logging.getLogger(__name__)
 

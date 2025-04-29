@@ -1,12 +1,12 @@
 import logging
-from asyncio import sleep
 from datetime import datetime
 
 from cleaning_service.app.events.cleaning_created_event_publisher import CleaningCreatedEventPublisher
 from cleaning_service.domain.events.booking_created import BookingCreatedEvent
 from cleaning_service.domain.events.cleaning_created import CleaningCreatedEvent
-from cleaning_service.infrastructure.database.models import Cleaning, RoomStatus
-from cleaning_service.infrastructure.database.repositories import CleaningRepository, RoomRepository
+from cleaning_service.domain.models.cleaning import RoomStatus, Cleaning
+from cleaning_service.infrastructure.persistence.repositories.cleaning_repository import CleaningRepository, \
+    RoomRepository
 
 logger = logging.getLogger(__name__)
 

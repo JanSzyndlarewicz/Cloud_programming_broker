@@ -1,5 +1,5 @@
-from notification_service.infrastructure.database.models import EmailLog
-from notification_service.infrastructure.database.repositories import EmailLogRepository
+from notification_service.infrastructure.persistence.models.orm_email_log import EmailLog
+from notification_service.infrastructure.persistence.repositories.email_log_repository import EmailLogRepository
 
 
 class GetEmailsByMailRecipientQueryHandler:

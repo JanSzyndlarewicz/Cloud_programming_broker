@@ -1,5 +1,5 @@
-from accounting_service.infrastructure.database.models import Invoice
-from accounting_service.infrastructure.database.repositories import InvoiceRepository
+from accounting_service.infrastructure.persistence.models.orm_invoice import Invoice
+from accounting_service.infrastructure.persistence.repositories.invoice_repository import InvoiceRepository
 
 
 class GetInvoiceQueryHandler:

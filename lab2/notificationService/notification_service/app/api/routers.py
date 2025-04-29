@@ -9,10 +9,12 @@ from notification_service.app.query.get_emails_by_mail_recipients_query_handler 
 )
 from notification_service.app.query.get_emails_query_handler import GetEmailsQueryHandler
 from notification_service.app.services.email_service import EmailService
-from notification_service.infrastructure.config import Config
-from notification_service.infrastructure.database.init import get_db
-from notification_service.infrastructure.database.repositories import EmailLogRepository
+
 from sqlalchemy.orm import Session
+
+from notification_service.infrastructure.config.settings import Config
+from notification_service.infrastructure.persistence import get_db
+from notification_service.infrastructure.persistence.repositories.email_log_repository import EmailLogRepository
 
 router = APIRouter()
 

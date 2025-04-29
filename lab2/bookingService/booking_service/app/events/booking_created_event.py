@@ -1,5 +1,5 @@
 from booking_service.domain.events.booking_created import BookingCreatedEvent
-from booking_service.infrastructure.event_bus.rabbitmq_event_bus import RabbitMQEventBus
+from booking_service.infrastructure.messaging.event_bus import RabbitMQEventBus
 
 
 class BookingCreatedEventPublisher:

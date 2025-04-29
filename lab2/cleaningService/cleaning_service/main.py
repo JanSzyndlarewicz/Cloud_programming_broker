@@ -5,10 +5,12 @@ from contextlib import asynccontextmanager
 import uvicorn
 import yaml
 from cleaning_service.app.api.routers import router
-from cleaning_service.infrastructure.database.init import get_db
-from cleaning_service.infrastructure.event_bus.rabbitmq_event_bus import RabbitMQEventBus
-from cleaning_service.infrastructure.event_bus.setup import setup_event_subscribers
+
 from fastapi import FastAPI
+
+from cleaning_service.infrastructure.messaging.event_bus import RabbitMQEventBus
+from cleaning_service.infrastructure.messaging.setup import setup_event_subscribers
+from cleaning_service.infrastructure.persistence import get_db
 
 # Load logging configuration
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -25,7 +27,7 @@ logger = logging.getLogger("app")
 async def lifespan(app: FastAPI):
     logger.info("Application cleaning is starting up...")
 
-    # Initialize the database session
+    # Initialize the persistence session
     db = next(get_db())
 
     logger.info("Database session initialized.")

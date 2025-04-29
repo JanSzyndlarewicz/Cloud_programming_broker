@@ -1,4 +1,4 @@
-from booking_service.infrastructure.database.repositories import RoomRepository
+from booking_service.infrastructure.persistence.repositories.room_repository import RoomRepository
 
 
 class GetRoomsQueryHandler:
