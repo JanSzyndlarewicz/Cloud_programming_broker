@@ -1,9 +1,8 @@
 from accounting_service.app.events.booking_created_event_subscriber import BookingCreatedEventSubscriber
 from accounting_service.app.events.invoice_created_event_publisher import InvoiceCreatedEventPublisher
 from accounting_service.infrastructure.messaging.event_bus import RabbitMQEventBus
-from sqlalchemy.orm import Session
-
 from accounting_service.infrastructure.persistence.repositories.invoice_repository import InvoiceRepository
+from sqlalchemy.orm import Session
 
 
 def create_event_subscriber(db: Session, event_bus: RabbitMQEventBus):
@@ -19,7 +18,7 @@ def setup_event_subscribers(db: Session, event_bus: RabbitMQEventBus, declare_qu
     queue_name = result.method.queue
 
     # Subskrybujemy tylko fanout broadcast z przekazaniem flagi declare_queue
-    event_bus.subscribe(
+    event_bus.start_subscription_in_thread(
         queue=queue_name,
         callback=booking_created_subscriber.handle,
         exchange_type="fanout",

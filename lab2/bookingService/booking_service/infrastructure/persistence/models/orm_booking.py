@@ -1,7 +1,8 @@
+import enum
+
+from booking_service.infrastructure.persistence.models import Base
 from sqlalchemy import Boolean, Column, Date, DateTime, Enum, Float, ForeignKey, Integer, String, func
 from sqlalchemy.orm import relationship
-from booking_service.infrastructure.persistence.models import Base
-import enum
 
 
 class BookingStatus(enum.Enum):

@@ -1,5 +1,6 @@
-from dining_service.infrastructure.persistence.repositories.dining_reservation_repository import \
-    DiningReservationRepository
+from dining_service.infrastructure.persistence.repositories.dining_reservation_repository import (
+    DiningReservationRepository,
+)
 
 
 class GetDiningReservationsQueryHandler:

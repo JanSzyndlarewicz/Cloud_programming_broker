@@ -1,9 +1,7 @@
-
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
-
 from cleaning_service.infrastructure.config.settings import Config
 from cleaning_service.infrastructure.persistence.models import Base, Room
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
 
 # Create the persistence engine
 engine = create_engine(Config.DATABASE_URL)

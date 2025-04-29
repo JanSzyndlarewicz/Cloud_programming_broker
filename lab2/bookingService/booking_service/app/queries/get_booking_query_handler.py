@@ -1,8 +1,7 @@
 from decimal import Decimal
 
-from fastapi import HTTPException
-
 from booking_service.infrastructure.persistence.repositories.booking_repository import BookingRepository
+from fastapi import HTTPException
 
 
 class GetBookingQueryHandler:

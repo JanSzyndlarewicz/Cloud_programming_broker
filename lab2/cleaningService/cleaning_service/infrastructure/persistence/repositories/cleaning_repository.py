@@ -1,9 +1,8 @@
 from typing import Type
 
-from sqlalchemy.orm import Session
-
 from cleaning_service.infrastructure.persistence.models.orm_cleaning import Cleaning
 from cleaning_service.infrastructure.persistence.models.orm_room import Room
+from sqlalchemy.orm import Session
 
 
 class CleaningRepository:

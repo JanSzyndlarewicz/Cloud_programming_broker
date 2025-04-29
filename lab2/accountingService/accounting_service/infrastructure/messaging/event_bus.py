@@ -1,9 +1,9 @@
 import json
 import logging
+import threading
 from typing import Any
 
 import pika
-
 from accounting_service.infrastructure.config.settings import Config
 from accounting_service.infrastructure.messaging.abstract import EventBus
 
@@ -20,6 +20,7 @@ class RabbitMQEventBus(EventBus):
                 host=Config.RABBITMQ_HOST,
                 port=Config.RABBITMQ_PORT,
                 credentials=pika.PlainCredentials(Config.RABBITMQ_USER, Config.RABBITMQ_PASSWORD),
+                virtual_host=Config.RABBITMQ_VHOST,
             )
         )
         self.channel = self.connection.channel()
@@ -69,3 +70,17 @@ class RabbitMQEventBus(EventBus):
     def __del__(self):
         logger.info("Closing RabbitMQ connection in destructor.")
         self.close()
+
+    def start_subscription_in_thread(
+        self,
+        queue: str,
+        callback: callable,
+        exchange_type: str = "direct",
+        routing_key: str = "",
+        declare_queue: bool = True,
+    ):
+        def subscription_thread():
+            self.subscribe(queue, callback, exchange_type, routing_key, declare_queue)
+
+        thread = threading.Thread(target=subscription_thread, daemon=True)
+        thread.start()

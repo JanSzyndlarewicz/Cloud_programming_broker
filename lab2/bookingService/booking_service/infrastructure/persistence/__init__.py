@@ -1,8 +1,7 @@
 from booking_service.infrastructure.config.settings import Config
+from booking_service.infrastructure.persistence.models.orm_room import Base, Room
 from sqlalchemy import create_engine, text
 from sqlalchemy.orm import sessionmaker
-
-from booking_service.infrastructure.persistence.models.orm_room import Room, Base
 
 engine = create_engine(Config.DATABASE_URL)
 

@@ -1,8 +1,7 @@
 import enum
 
-from sqlalchemy import Column, DateTime, Enum, Integer, String, func
-
 from cleaning_service.infrastructure.persistence.models import Base
+from sqlalchemy import Column, DateTime, Enum, Integer, String, func
 
 
 class RoomStatus(enum.Enum):

@@ -17,9 +17,11 @@ class Config:
     RABBITMQ_USER = os.getenv("RABBITMQ_USER", "guest")
     RABBITMQ_PASSWORD = os.getenv("RABBITMQ_PASSWORD", "guest")
     RABBITMQ_EXCHANGE = os.getenv("RABBITMQ_EXCHANGE", "events")
+    RABBITMQ_VHOST = os.getenv("RABBITMQ_VHOST", "/")
 
-    DATABASE_URL = (
-        f"postgresql+psycopg2://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_HOST}:{POSTGRES_PORT}/{POSTGRES_DB}"
+    DATABASE_URL = os.getenv(
+        "DATABASE_URL",
+        f"postgresql+psycopg2://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_HOST}:{POSTGRES_PORT}/{POSTGRES_DB}",
     )
 
     INVOICE_CREATED_ROUTING_KEY = "event.invoice.created"

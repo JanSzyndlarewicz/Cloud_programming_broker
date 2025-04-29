@@ -1,8 +1,7 @@
 from typing import Type
 
-from sqlalchemy.orm import Session
-
 from dining_service.infrastructure.persistence.models.orm_dining_reservation import DiningReservation
+from sqlalchemy.orm import Session
 
 
 class DiningReservationRepository:

@@ -1,6 +1,5 @@
-from sqlalchemy.orm import Session
-
 from booking_service.domain.dtos.booking import Room
+from sqlalchemy.orm import Session
 
 
 class RoomRepository:

@@ -1,5 +1,6 @@
 from booking_service.app.commands.create_booking_command import CreateBookingCommand
 from booking_service.app.commands.create_booking_command_handler import CreateBookingCommandHandler
+from booking_service.app.dtos.booking import CreateBookingRequest
 from booking_service.app.queries.get_booking_query_handler import GetBookingQueryHandler
 from booking_service.app.queries.get_bookings_query_handler import GetBookingsQueryHandler
 from booking_service.app.queries.get_rooms_query_handler import GetRoomsQueryHandler
@@ -17,8 +18,17 @@ class BookingController:
         self.get_bookings_query_handler = get_bookings_query_handler
         self.get_booking_query_handler = get_booking_query_handler
 
-    async def create_booking(self, command: CreateBookingCommand) -> dict:
+    async def create_booking(self, booking_request: CreateBookingRequest) -> dict:
         try:
+            command = CreateBookingCommand(
+                guest_name=booking_request.guest_name,
+                guest_email=booking_request.guest_email,
+                room=booking_request.room.model_dump(),
+                check_in=booking_request.check_in,
+                check_out=booking_request.check_out,
+                number_of_guests=booking_request.number_of_guests,
+                meal_reserved=booking_request.meal_reserved,
+            )
             booking_id = self.create_booking_command_handler.handle(command)
             return {"booking_id": booking_id, "status": "created"}
         except Exception as e:

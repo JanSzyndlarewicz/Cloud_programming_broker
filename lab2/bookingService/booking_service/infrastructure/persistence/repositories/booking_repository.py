@@ -1,8 +1,7 @@
 from typing import Type
 
-from sqlalchemy.orm import Session
-
 from booking_service.infrastructure.persistence.models.orm_booking import Booking
+from sqlalchemy.orm import Session
 
 
 class BookingRepository:
@@ -27,9 +26,10 @@ class BookingRepository:
         return db_booking
 
     def get(self, booking_id: int) -> Booking | None:
-        booking = self.session.query(Booking).filter(int(Booking.id) == booking_id).first()
+        print(f"Fetching booking with ID: {booking_id}")
+        booking = self.session.query(Booking).filter(Booking.id == booking_id).first()
+        print(f"Booking found: {booking}")
         return booking
 
     def list_all(self) -> list[Type[Booking]]:
         return self.session.query(Booking).all()
-

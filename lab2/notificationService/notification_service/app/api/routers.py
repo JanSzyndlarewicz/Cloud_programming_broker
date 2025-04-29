@@ -9,12 +9,11 @@ from notification_service.app.queries.get_emails_by_mail_recipients_query_handle
 )
 from notification_service.app.queries.get_emails_query_handler import GetEmailsQueryHandler
 from notification_service.app.services.email_service import EmailService
-
-from sqlalchemy.orm import Session
-
 from notification_service.infrastructure.config.settings import Config
+from notification_service.infrastructure.messaging.event_bus import RabbitMQEventBus
 from notification_service.infrastructure.persistence import get_db
 from notification_service.infrastructure.persistence.repositories.email_log_repository import EmailLogRepository
+from sqlalchemy.orm import Session
 
 router = APIRouter()
 
@@ -27,7 +26,8 @@ def get_email_controller(db: Session = Depends(get_db)):
         Config.SMTP_USERNAME,
         Config.SMTP_PASSWORD,
     )
-    event_publisher = EmailSentEventPublisher()
+    event_bus = RabbitMQEventBus()
+    event_publisher = EmailSentEventPublisher(event_bus)
     send_email_command_handler = SendEmailCommandHandler(
         email_service=email_service,
         email_log_repository=email_log_repository,

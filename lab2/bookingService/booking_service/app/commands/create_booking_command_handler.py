@@ -4,10 +4,8 @@ from typing import Optional
 
 from booking_service.app.commands.create_booking_command import CreateBookingCommand
 from booking_service.app.events.booking_created_event import BookingCreatedEventPublisher
-from booking_service.domain.events.booking_created import BookingCreatedEvent
 from booking_service.domain.dtos.booking import Booking, BookingStatus
-
-
+from booking_service.domain.events.booking_created import BookingCreatedEvent
 from booking_service.infrastructure.persistence.models.orm_room import RoomStatus
 from booking_service.infrastructure.persistence.repositories.booking_repository import BookingRepository
 from booking_service.infrastructure.persistence.repositories.room_repository import RoomRepository

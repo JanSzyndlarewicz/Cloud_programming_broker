@@ -6,11 +6,9 @@ import uvicorn
 import yaml
 from accounting_service.app.api.routers import router
 from accounting_service.infrastructure.messaging.event_bus import RabbitMQEventBus
-
 from accounting_service.infrastructure.messaging.setup import setup_event_subscribers
-from fastapi import FastAPI
-
 from accounting_service.infrastructure.persistence import get_db
+from fastapi import FastAPI
 
 # Load logging configuration
 current_dir = os.path.dirname(os.path.abspath(__file__))

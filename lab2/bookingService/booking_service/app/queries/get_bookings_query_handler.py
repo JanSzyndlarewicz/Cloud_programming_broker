@@ -1,6 +1,5 @@
-from sqlalchemy.orm import InstrumentedAttribute
-
 from booking_service.infrastructure.persistence.repositories.booking_repository import BookingRepository
+from sqlalchemy.orm import InstrumentedAttribute
 
 
 class GetBookingsQueryHandler:

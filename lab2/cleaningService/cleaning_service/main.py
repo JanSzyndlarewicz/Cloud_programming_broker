@@ -5,12 +5,10 @@ from contextlib import asynccontextmanager
 import uvicorn
 import yaml
 from cleaning_service.app.api.routers import router
-
-from fastapi import FastAPI
-
 from cleaning_service.infrastructure.messaging.event_bus import RabbitMQEventBus
 from cleaning_service.infrastructure.messaging.setup import setup_event_subscribers
 from cleaning_service.infrastructure.persistence import get_db
+from fastapi import FastAPI
 
 # Load logging configuration
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -27,11 +25,7 @@ logger = logging.getLogger("app")
 async def lifespan(app: FastAPI):
     logger.info("Application cleaning is starting up...")
 
-    # Initialize the persistence session
     db = next(get_db())
-
-    logger.info("Database session initialized.")
-    # Initialize the RabbitMQ event bus
     event_bus = RabbitMQEventBus()
 
     logger.info("RabbitMQ event bus initialized.")
@@ -44,7 +38,6 @@ async def lifespan(app: FastAPI):
     try:
         yield
     finally:
-        # Close RabbitMQ connection on shutdown
         event_bus.close()
         logger.info("Application is shutting down...")
 

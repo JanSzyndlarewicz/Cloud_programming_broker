@@ -1,6 +1,5 @@
-from sqlalchemy import Column, Date, DateTime, Integer, String, func
-
 from cleaning_service.infrastructure.persistence.models import Base
+from sqlalchemy import Column, Date, DateTime, Integer, String, func
 
 
 class Cleaning(Base):

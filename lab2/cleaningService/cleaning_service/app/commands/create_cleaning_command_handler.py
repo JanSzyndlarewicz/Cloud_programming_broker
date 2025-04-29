@@ -4,9 +4,12 @@ from typing import Optional
 
 from cleaning_service.app.commands.create_cleaning_command import CreateCleaningCommand
 from cleaning_service.app.events.cleaning_created_event_publisher import CleaningCreatedEventPublisher
+from cleaning_service.domain.dtos.cleaning import Cleaning, RoomStatus
 from cleaning_service.domain.events.cleaning_created import CleaningCreatedEvent
-from cleaning_service.infrastructure.persistence.repositories.cleaning_repository import CleaningRepository, \
-    RoomRepository
+from cleaning_service.infrastructure.persistence.repositories.cleaning_repository import (
+    CleaningRepository,
+    RoomRepository,
+)
 
 logger = logging.getLogger(__name__)
 

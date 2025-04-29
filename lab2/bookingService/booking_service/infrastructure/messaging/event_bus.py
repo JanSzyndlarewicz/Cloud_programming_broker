@@ -12,7 +12,6 @@ from typing import Any
 
 import pika
 
-
 logger = logging.getLogger(__name__)
 
 
@@ -26,6 +25,7 @@ class RabbitMQEventBus(EventBus):
                 host=Config.RABBITMQ_HOST,
                 port=Config.RABBITMQ_PORT,
                 credentials=pika.PlainCredentials(Config.RABBITMQ_USER, Config.RABBITMQ_PASSWORD),
+                virtual_host=Config.RABBITMQ_VHOST,
             )
         )
         self.channel = self.connection.channel()

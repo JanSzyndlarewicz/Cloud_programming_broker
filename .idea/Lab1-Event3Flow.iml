@@ -5,6 +5,8 @@
       <sourceFolder url="file://$MODULE_DIR$/lab2/bookingService" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/lab2/cleaningService" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/lab2/diningService" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lab2/accountingService" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lab2/notificationService" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/.venv" />
     </content>
     <orderEntry type="jdk" jdkName="Python 3.10.12 WSL (Ubuntu): (/home/janszyndlarewicz/.virtualenvs/Cloud_programming_broker/lab2/bin/python)" jdkType="Python SDK" />
