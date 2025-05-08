@@ -1,7 +1,7 @@
 from typing import Type
 
-from accounting_service.infrastructure.persistence.models.orm_invoice import Invoice
-from accounting_service.infrastructure.persistence.repositories.invoice_repository import InvoiceRepository
+from infrastructure.persistence.models.orm_invoice import Invoice
+from infrastructure.persistence.repositories.invoice_repository import InvoiceRepository
 
 
 class GetInvoicesByEmailQueryHandler:

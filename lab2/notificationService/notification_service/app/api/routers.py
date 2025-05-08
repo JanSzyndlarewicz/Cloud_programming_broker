@@ -1,18 +1,18 @@
 from fastapi import APIRouter, Depends
-from notification_service.app.api.controllers import EmailController
-from notification_service.app.commands.create_invoice_command import SendEmailCommand
-from notification_service.app.commands.create_invoice_command_handler import SendEmailCommandHandler
-from notification_service.app.events.email_sent_event_publisher import EmailSentEventPublisher
-from notification_service.app.queries.get_email_by_invoice_id_query_handler import GetEmailByInvoiceIdQueryHandler
-from notification_service.app.queries.get_emails_by_mail_recipients_query_handler import (
+from app.api.controllers import EmailController
+from app.commands.create_invoice_command import SendEmailCommand
+from app.commands.create_invoice_command_handler import SendEmailCommandHandler
+from app.events.email_sent_event_publisher import EmailSentEventPublisher
+from app.queries.get_email_by_invoice_id_query_handler import GetEmailByInvoiceIdQueryHandler
+from app.queries.get_emails_by_mail_recipients_query_handler import (
     GetEmailsByMailRecipientQueryHandler,
 )
-from notification_service.app.queries.get_emails_query_handler import GetEmailsQueryHandler
-from notification_service.app.services.email_service import EmailService
-from notification_service.infrastructure.config.settings import Config
-from notification_service.infrastructure.messaging.event_bus import RabbitMQEventBus
-from notification_service.infrastructure.persistence import get_db
-from notification_service.infrastructure.persistence.repositories.email_log_repository import EmailLogRepository
+from app.queries.get_emails_query_handler import GetEmailsQueryHandler
+from app.services.email_service import EmailService
+from infrastructure.config.settings import Config
+from infrastructure.messaging.event_bus import RabbitMQEventBus
+from infrastructure.persistence import get_db
+from infrastructure.persistence.repositories.email_log_repository import EmailLogRepository
 from sqlalchemy.orm import Session
 
 router = APIRouter()
@@ -49,7 +49,7 @@ async def send_email(command: SendEmailCommand, controller: EmailController = De
     return await controller.send_email(command)
 
 
-@router.get("/emails/{invoice_id}")
+@router.get("/emails/invoices/{invoice_id}")
 async def get_email_by_invoice_id(invoice_id: int, controller: EmailController = Depends(get_email_controller)):
     return await controller.get_email_by_invoice_id(invoice_id)
 

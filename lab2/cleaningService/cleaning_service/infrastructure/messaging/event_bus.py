@@ -4,8 +4,8 @@ import threading
 from typing import Any
 
 import pika
-from cleaning_service.infrastructure.config.settings import Config
-from cleaning_service.infrastructure.messaging.abstract import EventBus
+from infrastructure.config.settings import Config
+from infrastructure.messaging.abstract import EventBus
 
 logger = logging.getLogger(__name__)
 

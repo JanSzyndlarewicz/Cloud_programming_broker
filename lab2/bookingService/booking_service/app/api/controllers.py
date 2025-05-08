@@ -1,9 +1,9 @@
-from booking_service.app.commands.create_booking_command import CreateBookingCommand
-from booking_service.app.commands.create_booking_command_handler import CreateBookingCommandHandler
-from booking_service.app.dtos.booking import CreateBookingRequest
-from booking_service.app.queries.get_booking_query_handler import GetBookingQueryHandler
-from booking_service.app.queries.get_bookings_query_handler import GetBookingsQueryHandler
-from booking_service.app.queries.get_rooms_query_handler import GetRoomsQueryHandler
+from app.commands.create_booking_command import CreateBookingCommand
+from app.commands.create_booking_command_handler import CreateBookingCommandHandler
+from app.dtos.booking import CreateBookingRequest
+from app.queries.get_booking_query_handler import GetBookingQueryHandler
+from app.queries.get_bookings_query_handler import GetBookingsQueryHandler
+from app.queries.get_rooms_query_handler import GetRoomsQueryHandler
 from fastapi import HTTPException
 
 

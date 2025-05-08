@@ -1,6 +1,6 @@
 import enum
 
-from cleaning_service.infrastructure.persistence.models import Base
+from infrastructure.persistence.models import Base
 from sqlalchemy import Column, DateTime, Enum, Integer, String, func
 
 

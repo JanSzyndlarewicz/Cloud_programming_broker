@@ -1,5 +1,5 @@
-from notification_service.infrastructure.config.settings import Config
-from notification_service.infrastructure.persistence.models.orm_email_log import Base
+from infrastructure.config.settings import Config
+from infrastructure.persistence.models.orm_email_log import Base
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 

@@ -1,10 +1,12 @@
-from dining_service.app.api.controllers import DiningController
-from dining_service.app.commands.create_dining_command_handler import CreateDiningCommandHandler
-from dining_service.app.events.dining_created_event_publisher import DiningCreatedEventPublisher
-from dining_service.app.queries.get_dining_reservations_query_handler import GetDiningReservationsQueryHandler
-from dining_service.infrastructure.messaging.event_bus import RabbitMQEventBus
-from dining_service.infrastructure.persistence import get_db
-from dining_service.infrastructure.persistence.repositories.dining_reservation_repository import (
+from typing import Optional
+
+from app.api.controllers import DiningController
+from app.commands.create_dining_command_handler import CreateDiningCommandHandler
+from app.events.dining_created_event_publisher import DiningCreatedEventPublisher
+from app.queries.get_dining_reservations_query_handler import GetDiningReservationsQueryHandler
+from infrastructure.messaging.event_bus import RabbitMQEventBus
+from infrastructure.persistence import get_db
+from infrastructure.persistence.repositories.dining_reservation_repository import (
     DiningReservationRepository,
 )
 from fastapi import APIRouter, Depends
@@ -25,5 +27,14 @@ def get_dining_controller(db: Session = Depends(get_db)):
 
 
 @router.get("/dining-reservations")
-async def list_dining_reservations(controller: DiningController = Depends(get_dining_controller)):
-    return await controller.get_dining_reservations()
+async def list_dining_reservations(
+    controller: DiningController = Depends(get_dining_controller),
+    guest_name: Optional[str] = None,
+    reservation_date: Optional[str] = None,
+    guest_email: Optional[str] = None,
+):
+    return await controller.get_dining_reservations(
+        guest_name=guest_name,
+        reservation_date=reservation_date,
+        guest_email=guest_email
+    )

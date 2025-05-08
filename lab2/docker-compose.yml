@@ -1,82 +1,65 @@
 version: "3.8"
 
 services:
-  booking-db:
-    image: postgres:15
-    container_name: booking_postgres
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: booking_db
+  booking-service:
+    build:
+      context: ./bookingService/booking_service
+      dockerfile: Dockerfile
+    container_name: booking_service
     ports:
-      - "5433:5432"  # Host port 5433 → Container port 5432
-    volumes:
-      - booking_data:/var/lib/postgresql/data
+      - "8000:8000"
+    env_file:
+      - ./bookingService/booking_service/.env
     networks:
-      - db_net
+      - app_net
 
-  cleaning-db:
-    image: postgres:15
-    container_name: cleaning_postgres
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: cleaning_db
+  cleaning-service:
+    build:
+      context: ./cleaningService/cleaning_service
+      dockerfile: Dockerfile
+    container_name: cleaning_service
     ports:
-      - "5434:5432"  # Host port 5434 → Container port 5432
-    volumes:
-      - cleaning_data:/var/lib/postgresql/data
+      - "8001:8001"
+    env_file:
+      - ./cleaningService/cleaning_service/.env
     networks:
-      - db_net
+      - app_net
 
-  dining-db:
-    image: postgres:15
-    container_name: dining_postgres
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: dining_db
+  dining-service:
+    build:
+      context: ./diningService/dining_service
+      dockerfile: Dockerfile
+    container_name: dining_service
     ports:
-      - "5435:5432"  # Host port 5435 → Container port 5432
-    volumes:
-      - dining_data:/var/lib/postgresql/data
+      - "8002:8002"
+    env_file:
+      - ./diningService/dining_service/.env
     networks:
-      - db_net
+      - app_net
 
-  accounting-db:
-    image: postgres:15
-    container_name: accounting_postgres
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: accounting_db
+  accounting-service:
+    build:
+      context: ./accountingService/accounting_service
+      dockerfile: Dockerfile
+    container_name: accounting_service
     ports:
-      - "5436:5432"  # Host port 5436 → Container port 5432
-    volumes:
-      - accounting_data:/var/lib/postgresql/data
+      - "8003:8003"
+    env_file:
+      - ./accountingService/accounting_service/.env
     networks:
-      - db_net
+      - app_net
 
-  notification-db:
-    image: postgres:15
-    container_name: notification_postgres
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: notification_db
+  notification-service:
+    build:
+      context: ./notificationService/notification_service
+      dockerfile: Dockerfile
+    container_name: notification_service
     ports:
-      - "5437:5432"  # Host port 5437 → Container port 5432
-    volumes:
-      - notification_data:/var/lib/postgresql/data
+      - "8004:8004"
+    env_file:
+      - ./notificationService/notification_service/.env
     networks:
-      - db_net
-
-volumes:
-  booking_data:
-  cleaning_data:
-  dining_data:
-  accounting_data:
-  notification_data:
+      - app_net
 
 networks:
-  db_net:
+  app_net:

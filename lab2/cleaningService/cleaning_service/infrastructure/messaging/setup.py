@@ -1,7 +1,7 @@
-from cleaning_service.app.events.booking_created_event_subscriber import BookingCreatedEventSubscriber
-from cleaning_service.app.events.cleaning_created_event_publisher import CleaningCreatedEventPublisher
-from cleaning_service.infrastructure.messaging.event_bus import RabbitMQEventBus
-from cleaning_service.infrastructure.persistence.repositories.cleaning_repository import (
+from app.events.booking_created_event_subscriber import BookingCreatedEventSubscriber
+from app.events.cleaning_created_event_publisher import CleaningCreatedEventPublisher
+from infrastructure.messaging.event_bus import RabbitMQEventBus
+from infrastructure.persistence.repositories.cleaning_repository import (
     CleaningRepository,
     RoomRepository,
 )

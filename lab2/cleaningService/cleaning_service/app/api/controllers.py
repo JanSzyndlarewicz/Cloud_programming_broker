@@ -1,6 +1,6 @@
-from cleaning_service.app.commands.create_cleaning_command import CreateCleaningCommand
-from cleaning_service.app.commands.create_cleaning_command_handler import CreateCleaningCommandHandler
-from cleaning_service.app.queries.get_rooms_query_handler import GetRoomsQueryHandler
+from app.commands.create_cleaning_command import CreateCleaningCommand
+from app.commands.create_cleaning_command_handler import CreateCleaningCommandHandler
+from app.queries.get_rooms_query_handler import GetRoomsQueryHandler
 from fastapi import HTTPException
 
 

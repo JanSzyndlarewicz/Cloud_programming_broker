@@ -1,4 +1,4 @@
-from cleaning_service.infrastructure.persistence.models import Base
+from infrastructure.persistence.models import Base
 from sqlalchemy import Column, Date, DateTime, Integer, String, func
 
 

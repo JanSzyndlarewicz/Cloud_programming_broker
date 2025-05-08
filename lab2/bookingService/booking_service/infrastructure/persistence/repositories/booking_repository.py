@@ -1,6 +1,7 @@
+from datetime import datetime
 from typing import Type
 
-from booking_service.infrastructure.persistence.models.orm_booking import Booking
+from infrastructure.persistence.models.orm_booking import Booking
 from sqlalchemy.orm import Session
 
 
@@ -18,7 +19,7 @@ class BookingRepository:
             total_cost=booking.total_cost,
             number_of_guests=booking.number_of_guests,
             status=booking.status,
-            meal_reserved=booking.meal_reserved,  # Added meal_reserved field
+            meal_reserved=booking.meal_reserved,
         )
         self.session.add(db_booking)
         self.session.commit()
@@ -26,10 +27,15 @@ class BookingRepository:
         return db_booking
 
     def get(self, booking_id: int) -> Booking | None:
-        print(f"Fetching booking with ID: {booking_id}")
         booking = self.session.query(Booking).filter(Booking.id == booking_id).first()
-        print(f"Booking found: {booking}")
         return booking
 
     def list_all(self) -> list[Type[Booking]]:
         return self.session.query(Booking).all()
+
+    def get_overlapping_bookings(self, room_id: int, check_in: datetime.date, check_out: datetime.date):
+        return self.session.query(Booking).filter(
+            Booking.room_id == room_id,
+            Booking.check_out > check_in,  # Booking ends after the requested check-in
+            Booking.check_in < check_out  # Booking starts before the requested check-out
+        ).all()

@@ -1,9 +1,9 @@
-from notification_service.app.events.email_sent_event_publisher import EmailSentEventPublisher
-from notification_service.app.events.invoice_created_event_subscriber import InvoiceCreatedEventSubscriber
-from notification_service.app.services.email_service import EmailService
-from notification_service.infrastructure.config.settings import Config
-from notification_service.infrastructure.messaging.event_bus import RabbitMQEventBus
-from notification_service.infrastructure.persistence.repositories.email_log_repository import EmailLogRepository
+from app.events.email_sent_event_publisher import EmailSentEventPublisher
+from app.events.invoice_created_event_subscriber import InvoiceCreatedEventSubscriber
+from app.services.email_service import EmailService
+from infrastructure.config.settings import Config
+from infrastructure.messaging.event_bus import RabbitMQEventBus
+from infrastructure.persistence.repositories.email_log_repository import EmailLogRepository
 from sqlalchemy.orm import Session
 
 

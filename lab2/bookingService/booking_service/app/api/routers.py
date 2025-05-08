@@ -1,15 +1,15 @@
-from booking_service.app.api.controllers import BookingController, RoomController
-from booking_service.app.commands.create_booking_command import CreateBookingCommand
-from booking_service.app.commands.create_booking_command_handler import CreateBookingCommandHandler
-from booking_service.app.dtos.booking import CreateBookingRequest
-from booking_service.app.events.booking_created_event import BookingCreatedEventPublisher
-from booking_service.app.queries.get_booking_query_handler import GetBookingQueryHandler
-from booking_service.app.queries.get_bookings_query_handler import GetBookingsQueryHandler
-from booking_service.app.queries.get_rooms_query_handler import GetRoomsQueryHandler
-from booking_service.infrastructure.messaging.event_bus import RabbitMQEventBus
-from booking_service.infrastructure.persistence import get_db
-from booking_service.infrastructure.persistence.repositories.booking_repository import BookingRepository
-from booking_service.infrastructure.persistence.repositories.room_repository import RoomRepository
+from app.api.controllers import BookingController, RoomController
+from app.commands.create_booking_command import CreateBookingCommand
+from app.commands.create_booking_command_handler import CreateBookingCommandHandler
+from app.dtos.booking import CreateBookingRequest
+from app.events.booking_created_event import BookingCreatedEventPublisher
+from app.queries.get_booking_query_handler import GetBookingQueryHandler
+from app.queries.get_bookings_query_handler import GetBookingsQueryHandler
+from app.queries.get_rooms_query_handler import GetRoomsQueryHandler
+from infrastructure.messaging.event_bus import RabbitMQEventBus
+from infrastructure.persistence import get_db
+from infrastructure.persistence.repositories.booking_repository import BookingRepository
+from infrastructure.persistence.repositories.room_repository import RoomRepository
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 

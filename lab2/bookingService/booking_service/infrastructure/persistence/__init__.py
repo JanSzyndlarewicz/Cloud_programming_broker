@@ -1,7 +1,8 @@
-from booking_service.infrastructure.config.settings import Config
-from booking_service.infrastructure.persistence.models.orm_room import Base, Room
-from sqlalchemy import create_engine, text
+from infrastructure.persistence.models.orm_room import Base, Room
+from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+
+from infrastructure.config.settings import Config
 
 engine = create_engine(Config.DATABASE_URL)
 

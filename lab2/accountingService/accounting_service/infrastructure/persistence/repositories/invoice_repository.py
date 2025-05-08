@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Type
 
-from accounting_service.infrastructure.persistence.models.orm_invoice import Invoice
+from infrastructure.persistence.models.orm_invoice import Invoice
 from sqlalchemy.orm import Session
 
 

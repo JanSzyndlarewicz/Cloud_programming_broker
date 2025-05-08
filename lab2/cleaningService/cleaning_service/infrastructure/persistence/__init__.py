@@ -1,5 +1,5 @@
-from cleaning_service.infrastructure.config.settings import Config
-from cleaning_service.infrastructure.persistence.models import Base, Room
+from infrastructure.config.settings import Config
+from infrastructure.persistence.models import Base, Room
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 

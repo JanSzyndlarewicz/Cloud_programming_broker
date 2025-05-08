@@ -1,11 +1,11 @@
 import logging
 from datetime import datetime, timedelta
 
-from accounting_service.app.events.invoice_created_event_publisher import InvoiceCreatedEventPublisher
-from accounting_service.domain.events.booking_created import BookingCreatedEvent
-from accounting_service.domain.events.invoice_created import InvoiceCreatedEvent
-from accounting_service.infrastructure.persistence.models.orm_invoice import Invoice
-from accounting_service.infrastructure.persistence.repositories.invoice_repository import InvoiceRepository
+from app.events.invoice_created_event_publisher import InvoiceCreatedEventPublisher
+from domain.events.booking_created import BookingCreatedEvent
+from domain.events.invoice_created import InvoiceCreatedEvent
+from infrastructure.persistence.models.orm_invoice import Invoice
+from infrastructure.persistence.repositories.invoice_repository import InvoiceRepository
 
 logger = logging.getLogger(__name__)
 

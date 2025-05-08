@@ -4,7 +4,7 @@ from contextlib import asynccontextmanager
 
 import uvicorn
 import yaml
-from booking_service.app.api.routers import router
+from app.api.routers import router
 from fastapi import FastAPI
 
 # Load logging configuration

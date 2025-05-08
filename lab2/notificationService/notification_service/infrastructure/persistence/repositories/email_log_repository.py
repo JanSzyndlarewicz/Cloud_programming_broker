@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import List, Type
 
-from notification_service.infrastructure.persistence.models.orm_email_log import EmailLog
+from infrastructure.persistence.models.orm_email_log import EmailLog
 from sqlalchemy.orm import Session
 
 

@@ -5,10 +5,10 @@ from contextlib import asynccontextmanager
 import uvicorn
 import yaml
 from fastapi import FastAPI
-from notification_service.app.api.routers import router
-from notification_service.infrastructure.messaging.event_bus import RabbitMQEventBus
-from notification_service.infrastructure.messaging.setup import setup_event_subscribers
-from notification_service.infrastructure.persistence import get_db
+from app.api.routers import router
+from infrastructure.messaging.event_bus import RabbitMQEventBus
+from infrastructure.messaging.setup import setup_event_subscribers
+from infrastructure.persistence import get_db
 
 # Load logging configuration
 current_dir = os.path.dirname(os.path.abspath(__file__))

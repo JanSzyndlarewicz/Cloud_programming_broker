@@ -1,4 +1,4 @@
-from booking_service.domain.dtos.booking import Room
+from domain.dtos.booking import Room
 from sqlalchemy.orm import Session
 
 

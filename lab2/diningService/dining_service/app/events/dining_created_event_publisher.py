@@ -1,6 +1,6 @@
-from dining_service.domain.events.dining_created import DiningCreatedEvent
-from dining_service.infrastructure.config.settings import Config
-from dining_service.infrastructure.messaging.event_bus import RabbitMQEventBus
+from domain.events.dining_created import DiningCreatedEvent
+from infrastructure.config.settings import Config
+from infrastructure.messaging.event_bus import RabbitMQEventBus
 
 
 class DiningCreatedEventPublisher:

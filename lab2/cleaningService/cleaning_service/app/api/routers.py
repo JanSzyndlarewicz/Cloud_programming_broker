@@ -1,11 +1,11 @@
-from cleaning_service.app.api.controllers import CleaningController, RoomController
-from cleaning_service.app.commands.create_cleaning_command import CreateCleaningCommand
-from cleaning_service.app.commands.create_cleaning_command_handler import CreateCleaningCommandHandler
-from cleaning_service.app.events.cleaning_created_event_publisher import CleaningCreatedEventPublisher
-from cleaning_service.app.queries.get_rooms_query_handler import GetRoomsQueryHandler
-from cleaning_service.infrastructure.messaging.event_bus import RabbitMQEventBus
-from cleaning_service.infrastructure.persistence import get_db
-from cleaning_service.infrastructure.persistence.repositories.cleaning_repository import (
+from app.api.controllers import CleaningController, RoomController
+from app.commands.create_cleaning_command import CreateCleaningCommand
+from app.commands.create_cleaning_command_handler import CreateCleaningCommandHandler
+from app.events.cleaning_created_event_publisher import CleaningCreatedEventPublisher
+from app.queries.get_rooms_query_handler import GetRoomsQueryHandler
+from infrastructure.messaging.event_bus import RabbitMQEventBus
+from infrastructure.persistence import get_db
+from infrastructure.persistence.repositories.cleaning_repository import (
     CleaningRepository,
     RoomRepository,
 )

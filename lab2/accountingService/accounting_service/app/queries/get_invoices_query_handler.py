@@ -1,4 +1,4 @@
-from accounting_service.infrastructure.persistence.repositories.invoice_repository import InvoiceRepository
+from infrastructure.persistence.repositories.invoice_repository import InvoiceRepository
 
 
 class GetInvoicesQueryHandler:

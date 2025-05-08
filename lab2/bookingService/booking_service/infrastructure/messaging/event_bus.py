@@ -1,7 +1,7 @@
 import logging
 
-from booking_service.infrastructure.config.settings import Config
-from booking_service.infrastructure.messaging.abstract import EventBus
+from infrastructure.config.settings import Config
+from infrastructure.messaging.abstract import EventBus
 
 logger = logging.getLogger(__name__)
 

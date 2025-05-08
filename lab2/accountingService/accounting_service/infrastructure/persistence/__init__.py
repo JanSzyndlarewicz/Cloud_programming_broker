@@ -1,5 +1,5 @@
-from accounting_service.infrastructure.config.settings import Config
-from accounting_service.infrastructure.persistence.models.orm_invoice import Base
+from infrastructure.config.settings import Config
+from infrastructure.persistence.models.orm_invoice import Base
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 

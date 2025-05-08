@@ -1,7 +1,7 @@
 from typing import Type
 
-from cleaning_service.infrastructure.persistence.models.orm_cleaning import Cleaning
-from cleaning_service.infrastructure.persistence.models.orm_room import Room
+from infrastructure.persistence.models.orm_cleaning import Cleaning
+from infrastructure.persistence.models.orm_room import Room
 from sqlalchemy.orm import Session
 
 

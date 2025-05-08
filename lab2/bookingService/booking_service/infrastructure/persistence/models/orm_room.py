@@ -1,6 +1,6 @@
 import enum
 
-from booking_service.infrastructure.persistence.models import Base
+from infrastructure.persistence.models import Base
 from sqlalchemy import Column, DateTime, Enum, Float, Integer, String, func
 from sqlalchemy.orm import relationship
 
@@ -20,5 +20,4 @@ class Room(Base):
     status = Column(Enum(RoomStatus), default=RoomStatus.available, nullable=False)
     created_at = Column(DateTime, server_default=func.now())
 
-    # Odwołanie do klasy Booking jako ciąg znaków
     bookings = relationship("Booking", back_populates="room")

@@ -2,13 +2,13 @@ import logging
 from datetime import datetime
 from typing import Optional
 
-from booking_service.app.commands.create_booking_command import CreateBookingCommand
-from booking_service.app.events.booking_created_event import BookingCreatedEventPublisher
-from booking_service.domain.dtos.booking import Booking, BookingStatus
-from booking_service.domain.events.booking_created import BookingCreatedEvent
-from booking_service.infrastructure.persistence.models.orm_room import RoomStatus
-from booking_service.infrastructure.persistence.repositories.booking_repository import BookingRepository
-from booking_service.infrastructure.persistence.repositories.room_repository import RoomRepository
+from app.commands.create_booking_command import CreateBookingCommand
+from app.events.booking_created_event import BookingCreatedEventPublisher
+from domain.dtos.booking import Booking, BookingStatus
+from domain.events.booking_created import BookingCreatedEvent
+from infrastructure.persistence.models.orm_room import RoomStatus
+from infrastructure.persistence.repositories.booking_repository import BookingRepository
+from infrastructure.persistence.repositories.room_repository import RoomRepository
 
 logger = logging.getLogger(__name__)
 
@@ -39,8 +39,14 @@ class CreateBookingCommandHandler:
                 raise ValueError(f"Room {command.room['room_id']} not found")
 
             # Check availability using enum comparison
-            if room.status.value != RoomStatus.available.value:
-                raise ValueError(f"Room {room.number} is already booked")
+            overlapping_bookings = self.booking_repository.get_overlapping_bookings(
+                room_id=room.id,
+                check_in=check_in,
+                check_out=check_out,
+            )
+
+            if overlapping_bookings:
+                raise ValueError(f"Room {room.number} is already booked for the selected dates")
 
             # Create booking
             booking = Booking(

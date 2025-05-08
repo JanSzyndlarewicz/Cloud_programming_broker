@@ -1,7 +1,7 @@
-from dining_service.app.events.booking_created_event_subscriber import BookingCreatedEventSubscriber
-from dining_service.app.events.dining_created_event_publisher import DiningCreatedEventPublisher
-from dining_service.infrastructure.messaging.event_bus import RabbitMQEventBus
-from dining_service.infrastructure.persistence.repositories.dining_reservation_repository import (
+from app.events.booking_created_event_subscriber import BookingCreatedEventSubscriber
+from app.events.dining_created_event_publisher import DiningCreatedEventPublisher
+from infrastructure.messaging.event_bus import RabbitMQEventBus
+from infrastructure.persistence.repositories.dining_reservation_repository import (
     DiningReservationRepository,
 )
 from sqlalchemy.orm import Session

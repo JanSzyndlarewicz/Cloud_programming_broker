@@ -1,6 +1,6 @@
-from accounting_service.domain.events.invoice_created import InvoiceCreatedEvent
-from accounting_service.infrastructure.config.settings import Config
-from accounting_service.infrastructure.messaging.event_bus import RabbitMQEventBus
+from domain.events.invoice_created import InvoiceCreatedEvent
+from infrastructure.config.settings import Config
+from infrastructure.messaging.event_bus import RabbitMQEventBus
 
 
 class InvoiceCreatedEventPublisher:

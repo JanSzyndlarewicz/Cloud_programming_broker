@@ -4,10 +4,10 @@ from contextlib import asynccontextmanager
 
 import uvicorn
 import yaml
-from cleaning_service.app.api.routers import router
-from cleaning_service.infrastructure.messaging.event_bus import RabbitMQEventBus
-from cleaning_service.infrastructure.messaging.setup import setup_event_subscribers
-from cleaning_service.infrastructure.persistence import get_db
+from app.api.routers import router
+from infrastructure.messaging.event_bus import RabbitMQEventBus
+from infrastructure.messaging.setup import setup_event_subscribers
+from infrastructure.persistence import get_db
 from fastapi import FastAPI
 
 # Load logging configuration

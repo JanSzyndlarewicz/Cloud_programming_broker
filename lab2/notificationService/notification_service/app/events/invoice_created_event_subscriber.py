@@ -1,12 +1,12 @@
 import logging
 from datetime import datetime
 
-from notification_service.app.events.email_sent_event_publisher import EmailSentEventPublisher
-from notification_service.app.services.email_service import EmailService
-from notification_service.domain.events.email_sent import EmailSentEvent
-from notification_service.domain.events.invoice_created import InvoiceCreatedEvent
-from notification_service.infrastructure.persistence.models.orm_email_log import EmailLog
-from notification_service.infrastructure.persistence.repositories.email_log_repository import EmailLogRepository
+from app.events.email_sent_event_publisher import EmailSentEventPublisher
+from app.services.email_service import EmailService
+from domain.events.email_sent import EmailSentEvent
+from domain.events.invoice_created import InvoiceCreatedEvent
+from infrastructure.persistence.models.orm_email_log import EmailLog
+from infrastructure.persistence.repositories.email_log_repository import EmailLogRepository
 
 logger = logging.getLogger(__name__)
 
