@@ -5,3 +5,9 @@ output "db_connection_strings" {
   }
   sensitive = true
 }
+
+
+output "alb_dns" {
+  description = "Public DNS of the ALB"
+  value       = aws_lb.main.dns_name
+}

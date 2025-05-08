@@ -3,61 +3,61 @@ version: "3.8"
 services:
   booking-service:
     build:
-      context: ./bookingService/booking_service
+      context: booking-service/booking-service
       dockerfile: Dockerfile
-    container_name: booking_service
+    container_name: booking-service
     ports:
       - "8000:8000"
     env_file:
-      - ./bookingService/booking_service/.env
+      - booking-service/booking-service/.env
     networks:
       - app_net
 
   cleaning-service:
     build:
-      context: ./cleaningService/cleaning_service
+      context: cleaning-service/cleaning-service
       dockerfile: Dockerfile
-    container_name: cleaning_service
+    container_name: cleaning-service
     ports:
       - "8001:8001"
     env_file:
-      - ./cleaningService/cleaning_service/.env
+      - cleaning-service/cleaning-service/.env
     networks:
       - app_net
 
   dining-service:
     build:
-      context: ./diningService/dining_service
+      context: dining-service/dining-service
       dockerfile: Dockerfile
-    container_name: dining_service
+    container_name: dining-service
     ports:
       - "8002:8002"
     env_file:
-      - ./diningService/dining_service/.env
+      - dining-service/dining-service/.env
     networks:
       - app_net
 
   accounting-service:
     build:
-      context: ./accountingService/accounting_service
+      context: accounting-service/accounting-service
       dockerfile: Dockerfile
-    container_name: accounting_service
+    container_name: accounting-service
     ports:
       - "8003:8003"
     env_file:
-      - ./accountingService/accounting_service/.env
+      - accounting-service/accounting-service/.env
     networks:
       - app_net
 
   notification-service:
     build:
-      context: ./notificationService/notification_service
+      context: notification-service/notification-service
       dockerfile: Dockerfile
-    container_name: notification_service
+    container_name: notification-service
     ports:
       - "8004:8004"
     env_file:
-      - ./notificationService/notification_service/.env
+      - notification-service/notification-service/.env
     networks:
       - app_net
 

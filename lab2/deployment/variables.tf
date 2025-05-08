@@ -21,4 +21,6 @@ variable "dbs" {
   }
 }
 
-
+variable "aws_account_id" {
+  default     = "654654340788"
+}
