@@ -1,15 +1,10 @@
-# Docker swarm stack configuration for a hotel management system
-# docker stack rm hotel
-# docker stack deploy -c docker-compose.yml hotel
-# docker service ls
+version: "3.8"
 
 services:
-  # Usługi aplikacyjne
   booking-service:
     build:
       context: booking-service/booking-service
       dockerfile: Dockerfile
-    image: booking-service:latest
     ports:
       - "8000:8000"
     env_file:
@@ -18,16 +13,11 @@ services:
       - db_net
     deploy:
       replicas: 1
-      resources:
-        limits:
-          cpus: '0.5'
-          memory: 512M
 
   cleaning-service:
     build:
       context: cleaning-service/cleaning-service
       dockerfile: Dockerfile
-    image: cleaning-service:latest
     ports:
       - "8001:8001"
     env_file:
@@ -36,16 +26,11 @@ services:
       - db_net
     deploy:
       replicas: 3
-      resources:
-        limits:
-          cpus: '0.5'
-          memory: 512M
 
   dining-service:
     build:
       context: dining-service/dining-service
       dockerfile: Dockerfile
-    image: dining-service:latest
     ports:
       - "8002:8002"
     env_file:
@@ -54,16 +39,11 @@ services:
       - db_net
     deploy:
       replicas: 4
-      resources:
-        limits:
-          cpus: '0.75'
-          memory: 768M
 
   accounting-service:
     build:
       context: accounting-service/accounting-service
       dockerfile: Dockerfile
-    image: accounting-service:latest
     ports:
       - "8003:8003"
     env_file:
@@ -72,16 +52,11 @@ services:
       - db_net
     deploy:
       replicas: 2
-      resources:
-        limits:
-          cpus: '0.5'
-          memory: 512M
 
   notification-service:
     build:
       context: notification-service/notification-service
       dockerfile: Dockerfile
-    image: notification-service:latest
     ports:
       - "8004:8004"
     env_file:
@@ -90,109 +65,76 @@ services:
       - db_net
     deploy:
       replicas: 2
-      resources:
-        limits:
-          cpus: '0.3'
-          memory: 256M
 
-  # Bazy danych
   booking-db:
     image: postgres:15
+    container_name: booking_postgres
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: booking_db
     ports:
-      - "5433:5432"
+      - "5433:5432"  # Host port 5433 → Container port 5432
     volumes:
       - booking_data:/var/lib/postgresql/data
     networks:
       - db_net
-    deploy:
-      replicas: 1
-      resources:
-        limits:
-          cpus: '1.0'
-          memory: 1G
-      placement:
-        constraints:
-          - node.role == manager
 
   cleaning-db:
     image: postgres:15
+    container_name: cleaning_postgres
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: cleaning_db
     ports:
-      - "5434:5432"
+      - "5434:5432"  # Host port 5434 → Container port 5432
     volumes:
       - cleaning_data:/var/lib/postgresql/data
     networks:
       - db_net
-    deploy:
-      replicas: 1
-      resources:
-        limits:
-          cpus: '1.0'
-          memory: 1G
 
   dining-db:
     image: postgres:15
+    container_name: dining_postgres
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: dining_db
     ports:
-      - "5435:5432"
+      - "5435:5432"  # Host port 5435 → Container port 5432
     volumes:
       - dining_data:/var/lib/postgresql/data
     networks:
       - db_net
-    deploy:
-      replicas: 1
-      resources:
-        limits:
-          cpus: '1.0'
-          memory: 1G
 
   accounting-db:
     image: postgres:15
+    container_name: accounting_postgres
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: accounting_db
     ports:
-      - "5436:5432"
+      - "5436:5432"  # Host port 5436 → Container port 5432
     volumes:
       - accounting_data:/var/lib/postgresql/data
     networks:
       - db_net
-    deploy:
-      replicas: 1
-      resources:
-        limits:
-          cpus: '1.0'
-          memory: 1G
 
   notification-db:
     image: postgres:15
+    container_name: notification_postgres
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: notification_db
     ports:
-      - "5437:5432"
+      - "5437:5432"  # Host port 5437 → Container port 5432
     volumes:
       - notification_data:/var/lib/postgresql/data
     networks:
       - db_net
-    deploy:
-      replicas: 1
-      resources:
-        limits:
-          cpus: '1.0'
-          memory: 1G
 
 volumes:
   booking_data:
@@ -203,5 +145,3 @@ volumes:
 
 networks:
   db_net:
-    driver: overlay
-    attachable: true
