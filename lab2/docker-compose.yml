@@ -10,9 +10,9 @@ services:
     env_file:
       - booking-service/booking-service/.env
     networks:
-      - app_net
-    deploy:
-      replicas: 2
+      - db_net
+  #    deploy:
+#      replicas: 1
 
   cleaning-service:
     build:
@@ -23,9 +23,9 @@ services:
     env_file:
       - cleaning-service/cleaning-service/.env
     networks:
-      - app_net
-    deploy:
-      replicas: 3
+      - db_net
+  #    deploy:
+#      replicas: 3
 
   dining-service:
     build:
@@ -36,9 +36,9 @@ services:
     env_file:
       - dining-service/dining-service/.env
     networks:
-      - app_net
-    deploy:
-      replicas: 4
+      - db_net
+  #    deploy:
+#      replicas: 4
 
   accounting-service:
     build:
@@ -49,9 +49,9 @@ services:
     env_file:
       - accounting-service/accounting-service/.env
     networks:
-      - app_net
-    deploy:
-      replicas: 2
+      - db_net
+  #    deploy:
+#      replicas: 2
 
   notification-service:
     build:
@@ -62,9 +62,86 @@ services:
     env_file:
       - notification-service/notification-service/.env
     networks:
-      - app_net
-    deploy:
-      replicas: 2
+      - db_net
+  #    deploy:
+#      replicas: 2
+
+  booking-db:
+    image: postgres:15
+    container_name: booking_postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: booking_db
+    ports:
+      - "5433:5432"  # Host port 5433 → Container port 5432
+    volumes:
+      - booking_data:/var/lib/postgresql/data
+    networks:
+      - db_net
+
+  cleaning-db:
+    image: postgres:15
+    container_name: cleaning_postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: cleaning_db
+    ports:
+      - "5434:5432"  # Host port 5434 → Container port 5432
+    volumes:
+      - cleaning_data:/var/lib/postgresql/data
+    networks:
+      - db_net
+
+  dining-db:
+    image: postgres:15
+    container_name: dining_postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: dining_db
+    ports:
+      - "5435:5432"  # Host port 5435 → Container port 5432
+    volumes:
+      - dining_data:/var/lib/postgresql/data
+    networks:
+      - db_net
+
+  accounting-db:
+    image: postgres:15
+    container_name: accounting_postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: accounting_db
+    ports:
+      - "5436:5432"  # Host port 5436 → Container port 5432
+    volumes:
+      - accounting_data:/var/lib/postgresql/data
+    networks:
+      - db_net
+
+  notification-db:
+    image: postgres:15
+    container_name: notification_postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: notification_db
+    ports:
+      - "5437:5432"  # Host port 5437 → Container port 5432
+    volumes:
+      - notification_data:/var/lib/postgresql/data
+    networks:
+      - db_net
+
+volumes:
+  booking_data:
+  cleaning_data:
+  dining_data:
+  accounting_data:
+  notification_data:
 
 networks:
-  app_net:
+  db_net:
