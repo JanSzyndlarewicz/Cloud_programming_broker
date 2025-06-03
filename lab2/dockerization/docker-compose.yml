@@ -1,68 +1,62 @@
+# docker-compose up -d
+# docker compose up --scale cleaning-service=6
+# docker compose down
+
 version: "3.8"
 
 services:
   booking-service:
-    build:
-      context: booking-service/booking-service
-      dockerfile: Dockerfile
-    ports:
-      - "8000:8000"
+    image: booking-service:latest
     env_file:
-      - booking-service/booking-service/.env
-    networks:
-      - db_net
+      - ../booking-service/booking-service/.env
+    ports:
+        - "8000"
+    depends_on:
+      - booking-db
     deploy:
       replicas: 1
 
   cleaning-service:
-    build:
-      context: cleaning-service/cleaning-service
-      dockerfile: Dockerfile
-    ports:
-      - "8001:8001"
+    image: cleaning-service:latest
     env_file:
-      - cleaning-service/cleaning-service/.env
-    networks:
-      - db_net
+      - ../cleaning-service/cleaning-service/.env
+    ports:
+      - "8001"
+    depends_on:
+      - cleaning-db
     deploy:
       replicas: 3
 
   dining-service:
-    build:
-      context: dining-service/dining-service
-      dockerfile: Dockerfile
-    ports:
-      - "8002:8002"
+    image: dining-service:latest
     env_file:
-      - dining-service/dining-service/.env
-    networks:
-      - db_net
+      - ../dining-service/dining-service/.env
+    ports:
+      - "8002"
+    depends_on:
+      - dining-db
     deploy:
       replicas: 4
 
   accounting-service:
-    build:
-      context: accounting-service/accounting-service
-      dockerfile: Dockerfile
-    ports:
-      - "8003:8003"
+    image: accounting-service:latest
     env_file:
-      - accounting-service/accounting-service/.env
-    networks:
-      - db_net
+      - ../accounting-service/accounting-service/.env
+    ports:
+      - "8003"
+    depends_on:
+      - accounting-db
     deploy:
       replicas: 2
 
   notification-service:
-    build:
-      context: notification-service/notification-service
-      dockerfile: Dockerfile
-    ports:
-      - "8004:8004"
+    image: notification-service:latest
     env_file:
-      - notification-service/notification-service/.env
-    networks:
-      - db_net
+      - ../notification-service/notification-service/.env
+    ports:
+      - "8004"
+    depends_on:
+      - notification-db
     deploy:
       replicas: 2
 
@@ -77,8 +71,7 @@ services:
       - "5433:5432"  # Host port 5433 → Container port 5432
     volumes:
       - booking_data:/var/lib/postgresql/data
-    networks:
-      - db_net
+
 
   cleaning-db:
     image: postgres:15
@@ -91,8 +84,7 @@ services:
       - "5434:5432"  # Host port 5434 → Container port 5432
     volumes:
       - cleaning_data:/var/lib/postgresql/data
-    networks:
-      - db_net
+
 
   dining-db:
     image: postgres:15
@@ -105,8 +97,6 @@ services:
       - "5435:5432"  # Host port 5435 → Container port 5432
     volumes:
       - dining_data:/var/lib/postgresql/data
-    networks:
-      - db_net
 
   accounting-db:
     image: postgres:15
@@ -119,8 +109,6 @@ services:
       - "5436:5432"  # Host port 5436 → Container port 5432
     volumes:
       - accounting_data:/var/lib/postgresql/data
-    networks:
-      - db_net
 
   notification-db:
     image: postgres:15
@@ -133,8 +121,6 @@ services:
       - "5437:5432"  # Host port 5437 → Container port 5432
     volumes:
       - notification_data:/var/lib/postgresql/data
-    networks:
-      - db_net
 
 volumes:
   booking_data:
@@ -143,5 +129,3 @@ volumes:
   accounting_data:
   notification_data:
 
-networks:
-  db_net:

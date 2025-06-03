@@ -2,6 +2,7 @@
 # docker stack rm hotel
 # docker stack deploy -c docker-compose.yml hotel
 # docker service ls
+# docker service scale hotel_cleaning-service=5
 
 services:
   # Usługi aplikacyjne
@@ -16,12 +17,30 @@ services:
       - booking-service/booking-service/.env
     networks:
       - db_net
+    healthcheck:
+      test: ["CMD", "true"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
     deploy:
       replicas: 2
       resources:
         limits:
           cpus: '0.5'
           memory: 512M
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+        max_attempts: 5
+        window: 60s
+      update_config:
+        parallelism: 1
+        delay: 10s
+        failure_action: rollback
+      rollback_config:
+        parallelism: 1
+        delay: 10s
 
   cleaning-service:
     build:
@@ -34,12 +53,30 @@ services:
       - cleaning-service/cleaning-service/.env
     networks:
       - db_net
+    healthcheck:
+      test: ["CMD", "true"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
     deploy:
       replicas: 3
       resources:
         limits:
           cpus: '0.5'
           memory: 512M
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+        max_attempts: 5
+        window: 60s
+      update_config:
+        parallelism: 1
+        delay: 10s
+        failure_action: rollback
+      rollback_config:
+        parallelism: 1
+        delay: 10s
 
   dining-service:
     build:
@@ -52,12 +89,30 @@ services:
       - dining-service/dining-service/.env
     networks:
       - db_net
+    healthcheck:
+      test: ["CMD", "true"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
     deploy:
       replicas: 4
       resources:
         limits:
           cpus: '0.75'
           memory: 768M
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+        max_attempts: 5
+        window: 60s
+      update_config:
+        parallelism: 1
+        delay: 10s
+        failure_action: rollback
+      rollback_config:
+        parallelism: 1
+        delay: 10s
 
   accounting-service:
     build:
@@ -70,12 +125,30 @@ services:
       - accounting-service/accounting-service/.env
     networks:
       - db_net
+    healthcheck:
+      test: ["CMD", "true"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
     deploy:
       replicas: 2
       resources:
         limits:
           cpus: '0.5'
           memory: 512M
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+        max_attempts: 5
+        window: 60s
+      update_config:
+        parallelism: 1
+        delay: 10s
+        failure_action: rollback
+      rollback_config:
+        parallelism: 1
+        delay: 10s
 
   notification-service:
     build:
@@ -88,12 +161,30 @@ services:
       - notification-service/notification-service/.env
     networks:
       - db_net
+    healthcheck:
+      test: ["CMD", "true"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
     deploy:
       replicas: 2
       resources:
         limits:
           cpus: '0.3'
           memory: 256M
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+        max_attempts: 5
+        window: 60s
+      update_config:
+        parallelism: 1
+        delay: 10s
+        failure_action: rollback
+      rollback_config:
+        parallelism: 1
+        delay: 10s
 
   # Bazy danych
   booking-db:
@@ -117,6 +208,8 @@ services:
       placement:
         constraints:
           - node.role == manager
+      restart_policy:
+        condition: any
 
   cleaning-db:
     image: postgres:15
@@ -136,6 +229,8 @@ services:
         limits:
           cpus: '1.0'
           memory: 1G
+      restart_policy:
+        condition: any
 
   dining-db:
     image: postgres:15
@@ -155,6 +250,8 @@ services:
         limits:
           cpus: '1.0'
           memory: 1G
+      restart_policy:
+        condition: any
 
   accounting-db:
     image: postgres:15
@@ -174,6 +271,8 @@ services:
         limits:
           cpus: '1.0'
           memory: 1G
+      restart_policy:
+        condition: any
 
   notification-db:
     image: postgres:15
@@ -193,6 +292,8 @@ services:
         limits:
           cpus: '1.0'
           memory: 1G
+      restart_policy:
+        condition: any
 
 volumes:
   booking_data:
